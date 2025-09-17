@@ -1,0 +1,67 @@
+type Semester {
+    id: ID!
+    tahun_ajaran: String!
+    periode: String!
+    created_at: DateTime
+    updated_at: DateTime
+    deleted_at: DateTime
+}
+
+input CreateSemesterInput{
+    tahun_ajaran: String!
+    periode: String!
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+}
+
+type PageInfo{
+    hasMorePages: Boolean!
+    currentPage: Int!
+    lastPage: Int!
+    perPage: Int!
+    total: Int!
+}
+
+type SemesterPaginator{
+    data: [Semester]!
+    paginatorInfo: PageInfo!
+}
+
+
+input UpdateSemesterInput{
+    id: Int
+    tahun_ajaran: String
+    periode: String
+}
+
+extend type Query{
+    allSemester: [Semester!]! @all(model: "Semester\\Semester")
+    semester(id: ID! @eq(key: "id")): Semester @find(model: "Semester\\Semester")
+    allSemesterPaginate(
+            search: String
+            first: Int
+            page: Int
+        ): SemesterPaginator @field(resolver: "Semester\\Queries\\SemesterQuery@all")   
+    semesterByTahun(
+        tahun_ajaran: String! @where(operator: "like", key: "tahun_ajaran")
+    ): [Semester]! @all(model: "Semester\\Semester")
+}
+
+extend type Mutation {
+  createSemester(input: CreateSemesterInput! @spread): Semester
+    @create(model: "Semester\\Semester")
+
+  updateSemester(
+    id: ID! @eq(key: "id"),
+    input: UpdateSemesterInput! @spread
+  ): Semester
+    @update(model: "Semester\\Semester")
+
+  deleteSemester(id: ID! @eq(key: "id")): Semester
+    @delete(model: "Semester\\Semester")
+
+  restoreSemester(id: ID!): Semester
+    @field(resolver: "Semester\\Mutations\\SemesterMutation@restore")
+
+  forceDeleteSemester(id: ID!): Semester
+    @field(resolver: "Semester\\Mutations\\SemesterMutation@forceDelete")
+}

@@ -1,0 +1,70 @@
+type Nilai {
+    id: ID!
+    krs_detail_id: Int!
+    nilai_huruf: String!   
+    nilai_angka: Float!
+    created_at: DateTime
+    updated_at: DateTime
+    deleted_at: DateTime
+}
+
+input CreateNilaiInput{
+    krs_detail_id: Int!
+    nilai_huruf: String!
+    nilai_angka: Float!
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+}
+
+type PageInfo{
+    hasMorePages: Boolean!
+    currentPage: Int!
+    lastPage: Int!
+    perPage: Int!
+    total: Int!
+}
+
+type NilaiPaginator{
+    data: [Nilai]!
+    paginatorInfo: PageInfo!
+}
+
+
+input UpdateNilaiInput{
+    id: Int
+    krs_detail_id: Int
+    nilai_huruf: String
+    nilai_angka: float
+}
+
+extend type Query{
+    allNilai: [Nilai!]! @all(model: "Nilai\\Nilai")
+    nilai(id: ID! @eq(key: "id")): Nilai @find(model: "Nilai\\Nilai")
+    allNilaiPaginate(
+            search: String
+            first: Int
+            page: Int
+        ): NilaiPaginator @field(resolver: "Nilai\\Queries\\NilaiQuery@all")   
+    nilaiByHuruf(
+        nilai_huruf: String! @where(operator: "like", key: "nilai_huruf")
+    ): [Nilai]! @all(model: "Nilai\\Nilai")
+}
+
+extend type Mutation {
+  createNilai(input: CreateNilaiInput! @spread): Nilai
+    @create(model: "Nilai\\Nilai")
+
+  updateNilai(
+    id: ID! @eq(key: "id"),
+    input: UpdateNilaiInput! @spread
+  ): Nilai
+    @update(model: "Nilai\\Nilai")
+
+  deleteNilai(id: ID! @eq(key: "id")): Nilai
+    @delete(model: "Nilai\\Nilai")
+
+  restoreNilai(id: ID!): Nilai
+    @field(resolver: "Nilai\\Mutations\\NilaiMutation@restore")
+
+  forceDeleteNilai(id: ID!): Nilai
+    @field(resolver: "Nilai\\Mutations\\NilaiMutation@forceDelete")
+}

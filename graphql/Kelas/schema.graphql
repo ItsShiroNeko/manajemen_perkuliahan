@@ -1,0 +1,73 @@
+type Kelas {
+    id: ID!
+    nama_kelas: String!
+    dosen_id: Int!
+    mata_kuliah_id: Int!
+    semester_id: Float!
+    created_at: DateTime
+    updated_at: DateTime
+    deleted_at: DateTime
+}
+
+input CreateKelasInput{
+    nama_kelas: String!
+    dosen_id: Int!
+    mata_kuliah_id: Int!
+    semester_id: Float!
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+}
+
+type PageInfo{
+    hasMorePages: Boolean!
+    currentPage: Int!
+    lastPage: Int!
+    perPage: Int!
+    total: Int!
+}
+
+type KelasPaginator{
+    data: [Kelas]!
+    paginatorInfo: PageInfo!
+}
+
+
+input UpdateKelasInput{
+    id: Int
+    nama_kelas: String
+    dosen_id: Int
+    mata_kuliah_id: Int
+    semester_id: Float
+}
+
+extend type Query{
+    allKelas: [Kelas!]! @all(model: "Kelas\\Kelas")
+    kelas(id: ID! @eq(key: "id")): Kelas @find(model: "Kelas\\Kelas")
+    allKelasPaginate(
+            search: String
+            first: Int
+            page: Int
+        ): KelasPaginator @field(resolver: "Kelas\\Queries\\KelasQuery@all")   
+    kelasByNama(
+        nama_kelas: String! @where(operator: "like", key: "nama_kelas")
+    ): [Kelas]! @all(model: "Kelas\\Kelas")
+}
+
+extend type Mutation {
+  createKelas(input: CreateKelasInput! @spread): Kelas
+    @create(model: "Kelas\\Kelas")
+
+  updateKelas(
+    id: ID! @eq(key: "id"),
+    input: UpdateKelasInput! @spread
+  ): Kelas
+    @update(model: "Kelas\\Kelas")
+
+  deleteKelas(id: ID! @eq(key: "id")): Kelas
+    @delete(model: "Kelas\\Kelas")
+
+  restoreKelas(id: ID!): Kelas
+    @field(resolver: "Kelas\\Mutations\\KelasMutation@restore")
+
+  forceDeleteKelas(id: ID!): Kelas
+    @field(resolver: "Kelas\\Mutations\\KelasMutation@forceDelete")
+}

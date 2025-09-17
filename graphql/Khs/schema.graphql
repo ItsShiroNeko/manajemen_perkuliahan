@@ -1,0 +1,76 @@
+type Khs {
+    id: ID!
+    mahasiswa_id: Int!
+    semester_id: Int!
+    ip: Float!
+    ipk: Float!
+    total_sks: Int!
+    created_at: DateTime
+    updated_at: DateTime
+    deleted_at: DateTime
+}
+
+input CreateKhsInput{
+    mahasiswa_id: Int!
+    semester_id: Int!
+    ip: Float!
+    ipk: Float!
+    total_sks: Int!
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+}
+
+type PageInfo{
+    hasMorePages: Boolean!
+    currentPage: Int!
+    lastPage: Int!
+    perPage: Int!
+    total: Int!
+}
+
+type KhsPaginator{
+    data: [Khs]!
+    paginatorInfo: PageInfo!
+}
+
+
+input UpdateKhsInput{
+    id: Int
+    mahasiswa_id: Int
+    semester_id: Int
+    ip: Float
+    ipk: Float
+    total_sks: Int
+}
+
+extend type Query{
+    allKhs: [Khs!]! @all(model: "Khs\\Khs")
+    khs(id: ID! @eq(key: "id")): Khs @find(model: "Khs\\Khs")
+    allKhsPaginate(
+            search: String
+            first: Int
+            page: Int
+        ): KhsPaginator @field(resolver: "Khs\\Queries\\KhsQuery@all")   
+    khsByMahasiswa(
+        nama_mk: String! @where(operator: "like", key: "nama_mk")
+    ): [Khs]! @all(model: "Khs\\Khs")
+}
+
+extend type Mutation {
+  createKhs(input: CreateKhsInput! @spread): Khs
+    @create(model: "Khs\\Khs")
+
+  updateKhs(
+    id: ID! @eq(key: "id"),
+    input: UpdateKhsInput! @spread
+  ): Khs
+    @update(model: "Khs\\Khs")
+
+  deleteKhs(id: ID! @eq(key: "id")): Khs
+    @delete(model: "Khs\\Khs")
+
+  restoreKhs(id: ID!): Khs
+    @field(resolver: "Khs\\Mutations\\KhsMutation@restore")
+
+  forceDeleteKhs(id: ID!): Khs
+    @field(resolver: "Khs\\Mutations\\KhsMutation@forceDelete")
+}

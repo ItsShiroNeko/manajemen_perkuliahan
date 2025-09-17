@@ -1,0 +1,73 @@
+type Dosen {
+    id: ID!
+    nidn: String!
+    nama: String!
+    jurusan_id: Int!
+    user_id: Int!
+    created_at: DateTime
+    updated_at: DateTime
+    deleted_at: DateTime
+}
+
+input CreateDosenInput{
+    nidn: String!
+    nama: String!
+    jurusan_id: Int!
+    user_id: Int!
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+}
+
+type PageInfo{
+    hasMorePages: Boolean!
+    currentPage: Int!
+    lastPage: Int!
+    perPage: Int!
+    total: Int!
+}
+
+type DosenPaginator{
+    data: [Dosen]!
+    paginatorInfo: PageInfo!
+}
+
+
+input UpdateDosenInput{
+    id: Int
+    nidn: String
+    nama: String
+    jurusan_id: Int
+    user_id: Int
+}
+
+extend type Query{
+    allDosen: [Dosen!]! @all(model: "Dosen\\Dosen")
+    Dosen(id: ID! @eq(key: "id")): Dosen @find(model: "Dosen\\Dosen")
+    allDosenPaginate(
+            search: String
+            first: Int
+            page: Int
+        ): DosenPaginator @field(resolver: "Dosen\\Queries\\DosenQuery@all")   
+    DosenByNama(
+        nama: String! @where(operator: "like", key: "nama")
+    ): [Dosen]! @all(model: "Dosen\\Dosen")
+}
+
+extend type Mutation {
+  createDosen(input: CreateDosenInput! @spread): Dosen
+    @create(model: "Dosen\\Dosen")
+
+  updateDosen(
+    id: ID! @eq(key: "id"),
+    input: UpdateDosenInput! @spread
+  ): Dosen
+    @update(model: "Dosen\\Dosen")
+
+  deleteDosen(id: ID! @eq(key: "id")): Dosen
+    @delete(model: "Dosen\\Dosen")
+
+  restoreDosen(id: ID!): Dosen
+    @field(resolver: "Dosen\\Mutations\\DosenMutation@restore")
+
+  forceDeleteDosen(id: ID!): Dosen
+    @field(resolver: "Dosen\\Mutations\\DosenMutation@forceDelete")
+}

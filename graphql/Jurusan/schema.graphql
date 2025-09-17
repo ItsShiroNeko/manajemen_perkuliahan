@@ -1,0 +1,70 @@
+type Jurusan {
+    id: ID!
+    kode_jurusan: String!
+    nama_jurusan: String!
+    fakultas_id: Int!
+    created_at: DateTime
+    updated_at: DateTime
+    deleted_at: DateTime
+}
+
+input CreateJurusanInput{
+    kode_jurusan: String!
+    nama_jurusan: String!
+    fakultas_id: Int!
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+}
+
+type PageInfo{
+    hasMorePages: Boolean!
+    currentPage: Int!
+    lastPage: Int!
+    perPage: Int!
+    total: Int!
+}
+
+type JurusanPaginator{
+    data: [Jurusan]!
+    paginatorInfo: PageInfo!
+}
+
+
+input UpdateJurusanInput{
+    id: Int
+    kode_jurusan: String
+    nama_jurusan: String
+    fakultas_id: Int
+}
+
+extend type Query{
+    allJurusan: [Jurusan!]! @all(model: "Jurusan\\Jurusan")
+    jurusan(id: ID! @eq(key: "id")): Jurusan @find(model: "Jurusan\\Jurusan")
+    allJurusanPaginate(
+            search: String
+            first: Int
+            page: Int
+        ): JurusanPaginator @field(resolver: "Jurusan\\Queries\\JurusanQuery@all")   
+    jurusanByNama(
+        nama_jurusan: String! @where(operator: "like", key: "nama_jurusan")
+    ): [Jurusan]! @all(model: "Jurusan\\Jurusan")
+}
+
+extend type Mutation {
+  createJurusan(input: CreateJurusanInput! @spread): Jurusan
+    @create(model: "Jurusan\\Jurusan")
+
+  updateJurusan(
+    id: ID! @eq(key: "id"),
+    input: UpdateJurusanInput! @spread
+  ): Jurusan
+    @update(model: "Jurusan\\Jurusan")
+
+  deleteJurusan(id: ID! @eq(key: "id")): Jurusan
+    @delete(model: "Jurusan\\Jurusan")
+
+  restoreJurusan(id: ID!): Jurusan
+    @field(resolver: "Jurusan\\Mutations\\JurusanMutation@restore")
+
+  forceDeleteJurusan(id: ID!): Jurusan
+    @field(resolver: "Jurusan\\Mutations\\JurusanMutation@forceDelete")
+}

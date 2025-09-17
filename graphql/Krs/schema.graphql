@@ -1,0 +1,73 @@
+type Krs {
+    id: ID!
+    mahasiswa_id: Int!
+    semester_id: Int!
+    tanggal_pengisian: String!
+    status: String!
+    created_at: DateTime
+    updated_at: DateTime
+    deleted_at: DateTime
+}
+
+input CreateKrsInput{
+    mahasiswa_id: Int!
+    semester_id: Int!
+    tanggal_pengisian: String!
+    status: String!
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+}
+
+type PageInfo{
+    hasMorePages: Boolean!
+    currentPage: Int!
+    lastPage: Int!
+    perPage: Int!
+    total: Int!
+}
+
+type KrsPaginator{
+    data: [Krs]!
+    paginatorInfo: PageInfo!
+}
+
+
+input UpdateKrsInput{
+    id: Int
+    mahasiswa_id: Int
+    semester_id: Int
+    tanggal_pengisian: String
+    status: String
+}
+
+extend type Query{
+    allKrs: [Krs!]! @all(model: "Krs\\Krs")
+    krs(id: ID! @eq(key: "id")): Krs @find(model: "Krs\\Krs")
+    allKrsPaginate(
+            search: String
+            first: Int
+            page: Int
+        ): KrsPaginator @field(resolver: "Krs\\Queries\\KrsQuery@all")   
+    krsByMahasiswa(
+        nama_mk: String! @where(operator: "like", key: "nama_mk")
+    ): [Krs]! @all(model: "Krs\\Krs")
+}
+
+extend type Mutation {
+  createKrs(input: CreateKrsInput! @spread): Krs
+    @create(model: "Krs\\Krs")
+
+  updateKrs(
+    id: ID! @eq(key: "id"),
+    input: UpdateKrsInput! @spread
+  ): Krs
+    @update(model: "Krs\\Krs")
+
+  deleteKrs(id: ID! @eq(key: "id")): Krs
+    @delete(model: "Krs\\Krs")
+
+  restoreKrs(id: ID!): Krs
+    @field(resolver: "Krs\\Mutations\\KrsMutation@restore")
+
+  forceDeleteKrs(id: ID!): Krs
+    @field(resolver: "Krs\\Mutations\\KrsMutation@forceDelete")
+}

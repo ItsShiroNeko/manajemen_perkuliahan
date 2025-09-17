@@ -1,0 +1,67 @@
+type KrsDetail {
+    id: ID!
+    krs_id: Int!
+    kelas_id: Int!
+    created_at: DateTime
+    updated_at: DateTime
+    deleted_at: DateTime
+}
+
+input CreateKrsDetailInput{
+    krs_id: Int!
+    kelas_id: Int!
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+}
+
+type PageInfo{
+    hasMorePages: Boolean!
+    currentPage: Int!
+    lastPage: Int!
+    perPage: Int!
+    total: Int!
+}
+
+type KrsDetailPaginator{
+    data: [KrsDetail]!
+    paginatorInfo: PageInfo!
+}
+
+
+input UpdateKrsDetailInput{
+    id: Int
+    krs_id: Int
+    kelas_id: Int
+}
+
+extend type Query{
+    allKrsDetail: [KrsDetail!]! @all(model: "KrsDetail\\KrsDetail")
+    krsdetail(id: ID! @eq(key: "id")): KrsDetail @find(model: "KrsDetail\\KrsDetail")
+    allKrsDetailPaginate(
+            search: String
+            first: Int
+            page: Int
+        ): KrsDetailPaginator @field(resolver: "KrsDetail\\Queries\\KrsDetailQuery@all")   
+    krsdetailByNama(
+        nama_mk: String! @where(operator: "like", key: "nama_mk")
+    ): [KrsDetail]! @all(model: "KrsDetail\\KrsDetail")
+}
+
+extend type Mutation {
+  createKrsDetail(input: CreateKrsDetailInput! @spread): KrsDetail
+    @create(model: "KrsDetail\\KrsDetail")
+
+  updateKrsDetail(
+    id: ID! @eq(key: "id"),
+    input: UpdateKrsDetailInput! @spread
+  ): KrsDetail
+    @update(model: "KrsDetail\\KrsDetail")
+
+  deleteKrsDetail(id: ID! @eq(key: "id")): KrsDetail
+    @delete(model: "KrsDetail\\KrsDetail")
+
+  restoreKrsDetail(id: ID!): KrsDetail
+    @field(resolver: "KrsDetail\\Mutations\\KrsDetailMutation@restore")
+
+  forceDeleteKrsDetail(id: ID!): KrsDetail
+    @field(resolver: "KrsDetail\\Mutations\\KrsDetailMutation@forceDelete")
+}

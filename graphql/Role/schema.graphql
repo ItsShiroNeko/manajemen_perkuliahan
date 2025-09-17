@@ -1,0 +1,64 @@
+type Role {
+    id: ID!
+    nama_role: String!
+    created_at: DateTime
+    updated_at: DateTime
+    deleted_at: DateTime
+}
+
+input CreateRoleInput{
+    nama_role: String!
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+}
+
+type PageInfo{
+    hasMorePages: Boolean!
+    currentPage: Int!
+    lastPage: Int!
+    perPage: Int!
+    total: Int!
+}
+
+type RolePaginator{
+    data: [Role]!
+    paginatorInfo: PageInfo!
+}
+
+
+input UpdateRoleInput{
+    id: Int
+    nama_role: String
+}
+
+extend type Query{
+    allRole: [Role!]! @all(model: "Role\\Role")
+    role(id: ID! @eq(key: "id")): Role @find(model: "Role\\Role")
+    allRolePaginate(
+            search: String
+            first: Int
+            page: Int
+        ): RolePaginator @field(resolver: "Role\\Queries\\RoleQuery@all")   
+    roleByRole(
+        nama_role: String! @where(operator: "like", key: "nama_role")
+    ): [Role]! @all(model: "Role\\Role")
+}
+
+extend type Mutation {
+  createRole(input: CreateRoleInput! @spread): Role
+    @create(model: "Role\\Role")
+
+  updateRole(
+    id: ID! @eq(key: "id"),
+    input: UpdateRoleInput! @spread
+  ): Role
+    @update(model: "Role\\Role")
+
+  deleteRole(id: ID! @eq(key: "id")): Role
+    @delete(model: "Role\\Role")
+
+  restoreRole(id: ID!): Role
+    @field(resolver: "Role\\Mutations\\RoleMutation@restore")
+
+  forceDeleteRole(id: ID!): Role
+    @field(resolver: "Role\\Mutations\\RoleMutation@forceDelete")
+}

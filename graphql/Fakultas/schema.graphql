@@ -1,0 +1,67 @@
+type Fakultas {
+    id: ID!
+    kode_fakultas: String!
+    nama_fakultas: String!
+    created_at: DateTime
+    updated_at: DateTime
+    deleted_at: DateTime
+}
+
+input CreateFakultasInput{
+    kode_fakultas: String!
+    nama_fakultas: String!
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+}
+
+type PageInfo{
+    hasMorePages: Boolean!
+    currentPage: Int!
+    lastPage: Int!
+    perPage: Int!
+    total: Int!
+}
+
+type FakultasPaginator{
+    data: [Fakultas]!
+    paginatorInfo: PageInfo!
+}
+
+
+input UpdateFakultasInput{
+    id: Int
+    kode_fakultas: String
+    nama_fakultas: String
+}
+
+extend type Query{
+    allFakultas: [Fakultas!]! @all(model: "Fakultas\\Fakultas")
+    fakultas(id: ID! @eq(key: "id")): Fakultas @find(model: "Fakultas\\Fakultas")
+    allFakultasPaginate(
+            search: String
+            first: Int
+            page: Int
+        ): FakultasPaginator @field(resolver: "Fakultas\\Queries\\FakultasQuery@all")   
+    fakultasByNama(
+        nama_fakultas: String! @where(operator: "like", key: "nama_fakultas")
+    ): [Fakultas]! @all(model: "Fakultas\\Fakultas")
+}
+
+extend type Mutation {
+  createFakultas(input: CreateFakultasInput! @spread): Fakultas
+    @create(model: "Fakultas\\Fakultas")
+
+  updateFakultas(
+    id: ID! @eq(key: "id"),
+    input: UpdateFakultasInput! @spread
+  ): Fakultas
+    @update(model: "Fakultas\\Fakultas")
+
+  deleteFakultas(id: ID! @eq(key: "id")): Fakultas
+    @delete(model: "Fakultas\\Fakultas")
+
+  restoreFakultas(id: ID!): Fakultas
+    @field(resolver: "Fakultas\\Mutations\\FakultasMutation@restore")
+
+  forceDeleteFakultas(id: ID!): Fakultas
+    @field(resolver: "Fakultas\\Mutations\\FakultasMutation@forceDelete")
+}

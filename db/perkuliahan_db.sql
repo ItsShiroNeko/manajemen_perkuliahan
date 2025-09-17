@@ -61,7 +61,7 @@ CREATE TABLE `fakultas` (
 
 CREATE TABLE `jadwal_kuliah` (
   `id` int(11) NOT NULL,
-  `kelas_id` int(11) NOT NULL,
+  `kelas_id` int(11) NOT NULL,  
   `ruang_id` int(11) NOT NULL,
   `hari` enum('Senin','Selasa','Rabu','Kamis','Jumat','Sabtu') NOT NULL,
   `jam_mulai` time NOT NULL,

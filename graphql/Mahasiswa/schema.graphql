@@ -1,0 +1,73 @@
+type MataKuliah {
+    id: ID!
+    kode_mk: String!
+    nama_mk: String!
+    sks: Int!   
+    jurusan_id: Int!
+    created_at: DateTime
+    updated_at: DateTime
+    deleted_at: DateTime
+}
+
+input CreateMataKuliahInput{
+    kode_mk: String!
+    nama_mk: String!
+    sks: Int! 
+    jurusan_id: Int!
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+}
+
+type PageInfo{
+    hasMorePages: Boolean!
+    currentPage: Int!
+    lastPage: Int!
+    perPage: Int!
+    total: Int!
+}
+
+type MataKuliahPaginator{
+    data: [MataKuliah]!
+    paginatorInfo: PageInfo!
+}
+
+
+input UpdateMataKuliahInput{
+    id: Int
+    kode_mk: String
+    nama_mk: String
+    sks: Int
+    jurusan_id: Int
+}
+
+extend type Query{
+    allMataKuliah: [MataKuliah!]! @all(model: "MataKuliah\\MataKuliah")
+    matakuliah(id: ID! @eq(key: "id")): MataKuliah @find(model: "MataKuliah\\MataKuliah")
+    allMataKuliahPaginate(
+            search: String
+            first: Int
+            page: Int
+        ): MataKuliahPaginator @field(resolver: "MataKuliah\\Queries\\MataKuliahQuery@all")   
+    matakuliahByNama(
+        nama_mk: String! @where(operator: "like", key: "nama_mk")
+    ): [MataKuliah]! @all(model: "MataKuliah\\MataKuliah")
+}
+
+extend type Mutation {
+  createMataKuliah(input: CreateMataKuliahInput! @spread): MataKuliah
+    @create(model: "MataKuliah\\MataKuliah")
+
+  updateMataKuliah(
+    id: ID! @eq(key: "id"),
+    input: UpdateMataKuliahInput! @spread
+  ): MataKuliah
+    @update(model: "MataKuliah\\MataKuliah")
+
+  deleteMataKuliah(id: ID! @eq(key: "id")): MataKuliah
+    @delete(model: "MataKuliah\\MataKuliah")
+
+  restoreMataKuliah(id: ID!): MataKuliah
+    @field(resolver: "MataKuliah\\Mutations\\MataKuliahMutation@restore")
+
+  forceDeleteMataKuliah(id: ID!): MataKuliah
+    @field(resolver: "MataKuliah\\Mutations\\MataKuliahMutation@forceDelete")
+}

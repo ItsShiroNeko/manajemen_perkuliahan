@@ -1,0 +1,71 @@
+type User {
+    id: ID!
+    username: String!
+    email: String!
+    role_id: Int!
+    created_at: DateTime
+    updated_at: DateTime
+    deleted_at: DateTime
+}
+
+input CreateUserInput{
+    username: String!
+    email: String!
+    role_id: Int!
+    password: String!
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+}
+
+type PageInfo{
+    hasMorePages: Boolean!
+    currentPage: Int!
+    lastPage: Int!
+    perPage: Int!
+    total: Int!
+}
+
+type UserPaginator{
+    data: [User]!
+    paginatorInfo: PageInfo!
+}
+
+
+input UpdateUserInput{
+    id: Int
+    username: String
+    email: String
+    password: String
+}
+
+extend type Query{
+    allUsers: [User!]! @all(model: "User\\User")
+    user(id: ID! @eq(key: "id")): User @find(model: "User\\User")
+    allUserPaginate(
+            search: String
+            first: Int
+            page: Int
+        ): UserPaginator @field(resolver: "User\\Queries\\UserQuery@all")   
+    userByNama(
+        nama: String! @where(operator: "like", key: "nama")
+    ): [User]! @all(model: "User\\User")
+}
+
+extend type Mutation {
+  createUser(input: CreateUserInput! @spread): User
+    @create(model: "User\\User")
+
+  updateUser(
+    id: ID! @eq(key: "id"),
+    input: UpdateUserInput! @spread
+  ): User
+    @update(model: "User\\User")
+
+  deleteUser(id: ID! @eq(key: "id")): User
+    @delete(model: "User\\User")
+
+  restoreUser(id: ID!): User
+    @field(resolver: "User\\Mutations\\UserMutation@restore")
+
+  forceDeleteUser(id: ID!): User
+    @field(resolver: "User\\Mutations\\UserMutation@forceDelete")
+}

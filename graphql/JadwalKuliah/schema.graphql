@@ -1,0 +1,76 @@
+type JadwalKuliah {
+    id: ID!
+    kelas_id: Int!
+    ruang_id: Int!
+    hari: String!
+    jam_mulai: String!
+    jam_selesai: String!
+    created_at: DateTime
+    updated_at: DateTime
+    deleted_at: DateTime
+}
+
+input CreateJadwalKuliahInput{
+    kelas_id: Int!
+    ruang_id: Int!
+    hari: String!
+    jam_mulai: String!
+    jam_selesai: String!
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+}
+
+type PageInfo{
+    hasMorePages: Boolean!
+    currentPage: Int!
+    lastPage: Int!
+    perPage: Int!
+    total: Int!
+}
+
+type JadwalKuliahPaginator{
+    data: [JadwalKuliah]!
+    paginatorInfo: PageInfo!
+}
+
+
+input UpdateJadwalKuliahInput{
+    id: Int
+    kelas_id: Int
+    ruang_id: Int
+    hari: String
+    jam_mulai: String
+    jam_selesai: String
+}
+
+extend type Query{
+    allJadwalKuliah: [JadwalKuliah!]! @all(model: "JadwalKuliah\\JadwalKuliah")
+    JadwalKuliah(id: ID! @eq(key: "id")): JadwalKuliah @find(model: "JadwalKuliah\\JadwalKuliah")
+    allJadwalKuliahPaginate(
+            search: String
+            first: Int
+            page: Int
+        ): JadwalKuliahPaginator @field(resolver: "JadwalKuliah\\Queries\\JadwalKuliahQuery@all")   
+    JadwalKuliahByNama(
+        nama_JadwalKuliah: String! @where(operator: "like", key: "nama_JadwalKuliah")
+    ): [JadwalKuliah]! @all(model: "JadwalKuliah\\JadwalKuliah")
+}
+
+extend type Mutation {
+  createJadwalKuliah(input: CreateJadwalKuliahInput! @spread): JadwalKuliah
+    @create(model: "JadwalKuliah\\JadwalKuliah")
+
+  updateJadwalKuliah(
+    id: ID! @eq(key: "id"),
+    input: UpdateJadwalKuliahInput! @spread
+  ): JadwalKuliah
+    @update(model: "JadwalKuliah\\JadwalKuliah")
+
+  deleteJadwalKuliah(id: ID! @eq(key: "id")): JadwalKuliah
+    @delete(model: "JadwalKuliah\\JadwalKuliah")
+
+  restoreJadwalKuliah(id: ID!): JadwalKuliah
+    @field(resolver: "JadwalKuliah\\Mutations\\JadwalKuliahMutation@restore")
+
+  forceDeleteJadwalKuliah(id: ID!): JadwalKuliah
+    @field(resolver: "JadwalKuliah\\Mutations\\JadwalKuliahMutation@forceDelete")
+}
