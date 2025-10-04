@@ -1,39 +1,52 @@
-type Ruang {
+type Ruangan {
     id: ID!
     kode_ruang: String!
     nama_ruang: String!
+    gedung: String
+    lantai: Int!
     kapasitas: Int!
+    jenis_ruang: String!
+    fasilitas: String
     created_at: DateTime
     updated_at: DateTime
     deleted_at: DateTime
+    
+    # Relations
+    jadwalKuliah: [JadwalKuliah!]! @hasMany
 }
 
-input CreateRuangInput{
+input CreateRuanganInput {
     kode_ruang: String!
     nama_ruang: String!
+    gedung: String
+    lantai: Int
     kapasitas: Int!
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+    jenis_ruang: String
+    fasilitas: String
 }
 
-type PageInfo{
+input UpdateRuanganInput {
+    id: Int
+    kode_ruang: String
+    nama_ruang: String
+    gedung: String
+    lantai: Int
+    kapasitas: Int
+    jenis_ruang: String
+    fasilitas: String
+}
+
+type RuanganPaginator {
+    data: [Ruangan]!
+    paginatorInfo: PageInfo!
+}
+
+type PageInfo {
     hasMorePages: Boolean!
     currentPage: Int!
     lastPage: Int!
     perPage: Int!
     total: Int!
-}
-
-type RuangPaginator{
-    data: [Ruang]!
-    paginatorInfo: PageInfo!
-}
-
-
-input UpdateRuangInput{
-    id: Int
-    kode_ruang: String
-    nama_ruang: String
-    kapasitas: Int
 }
 
 extend type Query{

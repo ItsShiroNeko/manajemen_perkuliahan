@@ -1,21 +1,53 @@
 type Nilai {
     id: ID!
     krs_detail_id: Int!
-    nilai_huruf: String!   
-    nilai_angka: Float!
+    tugas: Float
+    quiz: Float
+    uts: Float
+    uas: Float
+    nilai_akhir: Float
+    nilai_huruf: String
+    nilai_mutu: Float
+    status: String!
     created_at: DateTime
     updated_at: DateTime
     deleted_at: DateTime
+    
+    # Relations
+    krsDetail: KrsDetail! @belongsTo
 }
 
-input CreateNilaiInput{
+input CreateNilaiInput {
     krs_detail_id: Int!
-    nilai_huruf: String!
-    nilai_angka: Float!
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+    tugas: Float
+    quiz: Float
+    uts: Float
+    uas: Float
+    nilai_akhir: Float
+    nilai_huruf: String
+    nilai_mutu: Float
+    status: String
 }
 
-type PageInfo{
+input UpdateNilaiInput {
+    id: Int
+    krs_detail_id: Int
+    tugas: Float
+    quiz: Float
+    uts: Float
+    uas: Float
+    nilai_akhir: Float
+    nilai_huruf: String
+    nilai_mutu: Float
+    status: String
+}
+
+type NilaiPaginator {
+    data: [Nilai]!
+    paginatorInfo: PageInfo!
+}
+
+type PageInfo {
     hasMorePages: Boolean!
     currentPage: Int!
     lastPage: Int!
@@ -23,18 +55,6 @@ type PageInfo{
     total: Int!
 }
 
-type NilaiPaginator{
-    data: [Nilai]!
-    paginatorInfo: PageInfo!
-}
-
-
-input UpdateNilaiInput{
-    id: Int
-    krs_detail_id: Int
-    nilai_huruf: String
-    nilai_angka: float
-}
 
 extend type Query{
     allNilai: [Nilai!]! @all(model: "Nilai\\Nilai")

@@ -5,6 +5,7 @@ namespace App\Models\Fakultas;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Jurusan\Jurusan;
 
 class Fakultas extends Model
 {
@@ -15,6 +16,10 @@ class Fakultas extends Model
     protected $fillable = [
         'kode_fakultas',
         'nama_fakultas',
+        'dekan',
+        'alamat',
+        'telepon',
+        'email',
     ];
 
     protected function casts(): array
@@ -22,5 +27,11 @@ class Fakultas extends Model
         return [
             'deleted_at' => 'datetime',
         ];
+    }
+
+    // Relationships
+    public function jurusan()
+    {
+        return $this->hasMany(Jurusan::class);
     }
 }

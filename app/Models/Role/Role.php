@@ -5,6 +5,7 @@ namespace App\Models\Role;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\User\User;
 
 class Role extends Model
 {
@@ -14,6 +15,7 @@ class Role extends Model
 
     protected $fillable = [
         'nama_role',
+        'deskripsi',
     ];
 
     protected function casts(): array
@@ -21,5 +23,11 @@ class Role extends Model
         return [
             'deleted_at' => 'datetime',
         ];
+    }
+
+    // Relationships
+    public function users()
+    {
+        return $this->hasMany(User::class);
     }
 }

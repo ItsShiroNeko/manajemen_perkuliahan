@@ -5,6 +5,8 @@ namespace App\Models\Khs;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Mahasiswa\Mahasiswa;
+use App\Models\Semester\Semester;
 
 class Khs extends Model
 {
@@ -15,17 +17,31 @@ class Khs extends Model
     protected $fillable = [
         'mahasiswa_id',
         'semester_id',
-        'ip',
+        'sks_semester',
+        'sks_kumulatif',
+        'ip_semester',
         'ipk',
-        'total_sks',
     ];
 
     protected function casts(): array
     {
         return [
-            'deleted_at' => 'datetime',
-            'ip' => 'decimal:2',
+            'sks_semester' => 'integer',
+            'sks_kumulatif' => 'integer',
+            'ip_semester' => 'decimal:2',
             'ipk' => 'decimal:2',
+            'deleted_at' => 'datetime',
         ];
+    }
+
+    // Relationships
+    public function mahasiswa()
+    {
+        return $this->belongsTo(Mahasiswa::class);
+    }
+
+    public function semester()
+    {
+        return $this->belongsTo(Semester::class);
     }
 }

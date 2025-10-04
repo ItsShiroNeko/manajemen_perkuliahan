@@ -4,6 +4,10 @@ namespace App\GraphQL\Nilai\Queries;
 use App\Models\Nilai\Nilai;
 
 class NilaiQuery {
+    public function allArsip($_, array $args)
+    {
+        return Nilai::onlyTrashed()->get();
+    }
     public function all($_, array $args)
     {
         $query = Nilai::query();

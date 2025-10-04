@@ -1,23 +1,82 @@
-type MataKuliah {
+type Mahasiswa {
     id: ID!
-    kode_mk: String!
-    nama_mk: String!
-    sks: Int!   
+    user_id: Int!
+    nim: String!
+    nama_lengkap: String!
     jurusan_id: Int!
+    angkatan: Int!
+    jenis_kelamin: String!
+    tempat_lahir: String
+    tanggal_lahir: DateTime
+    alamat: String
+    no_hp: String
+    email_pribadi: String
+    nama_ayah: String
+    nama_ibu: String
+    no_hp_ortu: String
+    status: String!
+    semester_saat_ini: Int!
+    ipk: Float!
+    total_sks: Int!
     created_at: DateTime
     updated_at: DateTime
     deleted_at: DateTime
+    
+    user: User! @belongsTo
+    jurusan: Jurusan! @belongsTo
+    krs: [Krs!]! @hasMany
+    khs: [Khs!]! @hasMany
 }
 
-input CreateMataKuliahInput{
-    kode_mk: String!
-    nama_mk: String!
-    sks: Int! 
-    jurusan_id: Int!
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+input CreateMahasiswaInput {
+    user_id: Int!
+    nim: String!
+    nama_lengkap: String!
+    jurusan_id: Int!  
+    angkatan: Int!
+    jenis_kelamin: String!
+    tempat_lahir: String
+    tanggal_lahir: DateTime
+    alamat: String
+    no_hp: String
+    email_pribadi: String
+    nama_ayah: String
+    nama_ibu: String
+    no_hp_ortu: String
+    status: String
+    semester_saat_ini: Int
+    ipk: Float
+    total_sks: Int
 }
 
-type PageInfo{
+input UpdateMahasiswaInput {
+    id: Int
+    user_id: Int
+    nim: String
+    nama_lengkap: String
+    jurusan_id: Int
+    angkatan: Int
+    jenis_kelamin: String
+    tempat_lahir: String
+    tanggal_lahir: DateTime
+    alamat: String
+    no_hp: String
+    email_pribadi: String
+    nama_ayah: String
+    nama_ibu: String
+    no_hp_ortu: String
+    status: String
+    semester_saat_ini: Int
+    ipk: Float
+    total_sks: Int
+}
+
+type MahasiswaPaginator {
+    data: [Mahasiswa]!
+    paginatorInfo: PageInfo!
+}
+
+type PageInfo {
     hasMorePages: Boolean!
     currentPage: Int!
     lastPage: Int!
@@ -25,49 +84,35 @@ type PageInfo{
     total: Int!
 }
 
-type MataKuliahPaginator{
-    data: [MataKuliah]!
-    paginatorInfo: PageInfo!
-}
-
-
-input UpdateMataKuliahInput{
-    id: Int
-    kode_mk: String
-    nama_mk: String
-    sks: Int
-    jurusan_id: Int
-}
-
 extend type Query{
-    allMataKuliah: [MataKuliah!]! @all(model: "MataKuliah\\MataKuliah")
-    matakuliah(id: ID! @eq(key: "id")): MataKuliah @find(model: "MataKuliah\\MataKuliah")
-    allMataKuliahPaginate(
+    allMahasiswa: [Mahasiswa!]! @all(model: "Mahasiswa\\Mahasiswa")
+    mahasiswa(id: ID! @eq(key: "id")): Mahasiswa @find(model: "Mahasiswa\\Mahasiswa")
+    allMahasiswaPaginate(
             search: String
             first: Int
             page: Int
-        ): MataKuliahPaginator @field(resolver: "MataKuliah\\Queries\\MataKuliahQuery@all")   
-    matakuliahByNama(
-        nama_mk: String! @where(operator: "like", key: "nama_mk")
-    ): [MataKuliah]! @all(model: "MataKuliah\\MataKuliah")
+        ): MahasiswaPaginator @field(resolver: "Mahasiswa\\Queries\\MahasiswaQuery@all") 
+    mahasiswaByTahun(
+        tahun_ajaran: String! @where(operator: "like", key: "nama_lengkap")
+    ): [Mahasiswa]! @all(model: "Mahasiswa\\Mahasiswa")
 }
 
 extend type Mutation {
-  createMataKuliah(input: CreateMataKuliahInput! @spread): MataKuliah
-    @create(model: "MataKuliah\\MataKuliah")
+  createMahasiswa(input: CreateMahasiswaInput! @spread): Mahasiswa
+    @create(model: "Mahasiswa\\Mahasiswa")
 
-  updateMataKuliah(
+  updateMahasiswa(
     id: ID! @eq(key: "id"),
-    input: UpdateMataKuliahInput! @spread
-  ): MataKuliah
-    @update(model: "MataKuliah\\MataKuliah")
+    input: UpdateMahasiswaInput! @spread
+  ): Mahasiswa
+    @update(model: "Mahasiswa\\Mahasiswa")
 
-  deleteMataKuliah(id: ID! @eq(key: "id")): MataKuliah
-    @delete(model: "MataKuliah\\MataKuliah")
+  deleteMahasiswa(id: ID! @eq(key: "id")): Mahasiswa
+    @delete(model: "Mahasiswa\\Mahasiswa")
 
-  restoreMataKuliah(id: ID!): MataKuliah
-    @field(resolver: "MataKuliah\\Mutations\\MataKuliahMutation@restore")
+  restoreMahasiswa(id: ID!): Mahasiswa
+    @field(resolver: "Mahasiswa\\Mutations\\MahasiswaMutation@restore")
 
-  forceDeleteMataKuliah(id: ID!): MataKuliah
-    @field(resolver: "MataKuliah\\Mutations\\MataKuliahMutation@forceDelete")
+  forceDeleteMahasiswa(id: ID!): Mahasiswa
+    @field(resolver: "Mahasiswa\\Mutations\\MahasiswaMutation@forceDelete")
 }

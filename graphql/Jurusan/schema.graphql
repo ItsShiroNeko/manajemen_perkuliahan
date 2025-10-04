@@ -3,37 +3,50 @@ type Jurusan {
     kode_jurusan: String!
     nama_jurusan: String!
     fakultas_id: Int!
+    jenjang: String!
+    akreditasi: String  
+    kaprodi: String
     created_at: DateTime
     updated_at: DateTime
     deleted_at: DateTime
+    
+    # Relations
+    fakultas: Fakultas! @belongsTo
+    dosen: [Dosen!]! @hasMany
+    mahasiswa: [Mahasiswa!]! @hasMany
+    mataKuliah: [MataKuliah!]! @hasMany
 }
 
-input CreateJurusanInput{
+input CreateJurusanInput {
     kode_jurusan: String!
     nama_jurusan: String!
     fakultas_id: Int!
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+    jenjang: String!
+    akreditasi: String
+    kaprodi: String
 }
 
-type PageInfo{
+input UpdateJurusanInput {
+    id: Int
+    kode_jurusan: String
+    nama_jurusan: String
+    fakultas_id: Int
+    jenjang: String
+    akreditasi: String
+    kaprodi: String
+}
+
+type JurusanPaginator {
+    data: [Jurusan]!
+    paginatorInfo: PageInfo!
+}
+
+type PageInfo {
     hasMorePages: Boolean!
     currentPage: Int!
     lastPage: Int!
     perPage: Int!
     total: Int!
-}
-
-type JurusanPaginator{
-    data: [Jurusan]!
-    paginatorInfo: PageInfo!
-}
-
-
-input UpdateJurusanInput{
-    id: Int
-    kode_jurusan: String
-    nama_jurusan: String
-    fakultas_id: Int
 }
 
 extend type Query{

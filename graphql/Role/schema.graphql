@@ -1,14 +1,28 @@
 type Role {
     id: ID!
     nama_role: String!
+    deskripsi: String
     created_at: DateTime
     updated_at: DateTime
     deleted_at: DateTime
+    
+    users: [User!]! @hasMany
 }
 
-input CreateRoleInput{
+input CreateRoleInput {
     nama_role: String!
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+    deskripsi: String
+}
+
+input UpdateRoleInput {
+    id: Int
+    nama_role: String
+    deskripsi: String
+}
+
+type RolePaginator {
+    data: [Role]!
+    paginatorInfo: PageInfo!
 }
 
 type PageInfo{
@@ -19,25 +33,20 @@ type PageInfo{
     total: Int!
 }
 
-type RolePaginator{
-    data: [Role]!
-    paginatorInfo: PageInfo!
-}
-
-
-input UpdateRoleInput{
-    id: Int
-    nama_role: String
-}
-
 extend type Query{
     allRole: [Role!]! @all(model: "Role\\Role")
     role(id: ID! @eq(key: "id")): Role @find(model: "Role\\Role")
+    allRoleArsip(
+            search: String
+            first: Int
+            page: Int
+        ): RolePaginator
+    @field(resolver: "App\\GraphQL\\Role\\Queries\\RoleQuery@allArsip")
     allRolePaginate(
             search: String
             first: Int
             page: Int
-        ): RolePaginator @field(resolver: "Role\\Queries\\RoleQuery@all")   
+        ): RolePaginator @field(resolver: "App\\GraphQL\\Role\\Queries\\RoleQuery@all")   
     roleByRole(
         nama_role: String! @where(operator: "like", key: "nama_role")
     ): [Role]! @all(model: "Role\\Role")

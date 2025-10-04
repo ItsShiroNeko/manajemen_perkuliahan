@@ -1,42 +1,57 @@
 type Kelas {
     id: ID!
+    kode_kelas: String!
     nama_kelas: String!
-    dosen_id: Int!
     mata_kuliah_id: Int!
-    semester_id: Float!
+    dosen_id: Int!
+    semester_id: Int!
+    kapasitas: Int!
+    jumlah_mahasiswa: Int!
+    status: String!
     created_at: DateTime
     updated_at: DateTime
     deleted_at: DateTime
+    
+    # Relations
+    mataKuliah: MataKuliah! @belongsTo
+    dosen: Dosen! @belongsTo
+    semester: Semester! @belongsTo
+    jadwalKuliah: [JadwalKuliah!]! @hasMany
+    krsDetail: [KrsDetail!]! @hasMany
 }
 
-input CreateKelasInput{
+input CreateKelasInput {
+    kode_kelas: String!
     nama_kelas: String!
-    dosen_id: Int!
     mata_kuliah_id: Int!
-    semester_id: Float!
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+    dosen_id: Int!
+    semester_id: Int!
+    kapasitas: Int
+    status: String
 }
 
-type PageInfo{
+input UpdateKelasInput {
+    id: Int
+    kode_kelas: String
+    nama_kelas: String
+    mata_kuliah_id: Int
+    dosen_id: Int
+    semester_id: Int
+    kapasitas: Int
+    status: String
+}
+
+type KelasPaginator {
+    data: [Kelas]!
+    paginatorInfo: PageInfo!
+}
+
+type PageInfo {
     hasMorePages: Boolean!
     currentPage: Int!
     lastPage: Int!
     perPage: Int!
     total: Int!
-}
-
-type KelasPaginator{
-    data: [Kelas]!
-    paginatorInfo: PageInfo!
-}
-
-
-input UpdateKelasInput{
-    id: Int
-    nama_kelas: String
-    dosen_id: Int
-    mata_kuliah_id: Int
-    semester_id: Float
 }
 
 extend type Query{

@@ -76,4 +76,12 @@ class AuthController extends Controller
     {
         return view('auth.forgot-password');
     }
+    public function role()
+    {
+        return view('role.index');
+    }
+    public function user()
+    {
+        return view('user.index');
+    }
 }

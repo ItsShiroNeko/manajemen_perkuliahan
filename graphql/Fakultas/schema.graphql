@@ -2,35 +2,48 @@ type Fakultas {
     id: ID!
     kode_fakultas: String!
     nama_fakultas: String!
+    dekan: String
+    alamat: String
+    telepon: String
+    email: String
     created_at: DateTime
     updated_at: DateTime
     deleted_at: DateTime
+    
+    # Relations
+    jurusan: [Jurusan!]! @hasMany
 }
 
-input CreateFakultasInput{
+input CreateFakultasInput {
     kode_fakultas: String!
     nama_fakultas: String!
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+    dekan: String
+    alamat: String
+    telepon: String
+    email: String
 }
 
-type PageInfo{
+input UpdateFakultasInput {
+    id: Int
+    kode_fakultas: String
+    nama_fakultas: String
+    dekan: String
+    alamat: String
+    telepon: String
+    email: String
+}
+
+type FakultasPaginator {
+    data: [Fakultas]!
+    paginatorInfo: PageInfo!
+}
+
+type PageInfo {
     hasMorePages: Boolean!
     currentPage: Int!
     lastPage: Int!
     perPage: Int!
     total: Int!
-}
-
-type FakultasPaginator{
-    data: [Fakultas]!
-    paginatorInfo: PageInfo!
-}
-
-
-input UpdateFakultasInput{
-    id: Int
-    kode_fakultas: String
-    nama_fakultas: String
 }
 
 extend type Query{

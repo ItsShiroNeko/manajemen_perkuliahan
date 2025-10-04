@@ -2,44 +2,49 @@ type Khs {
     id: ID!
     mahasiswa_id: Int!
     semester_id: Int!
-    ip: Float!
+    sks_semester: Int!
+    sks_kumulatif: Int!
+    ip_semester: Float!
     ipk: Float!
-    total_sks: Int!
     created_at: DateTime
     updated_at: DateTime
     deleted_at: DateTime
+    
+    # Relations
+    mahasiswa: Mahasiswa! @belongsTo
+    semester: Semester! @belongsTo
 }
 
-input CreateKhsInput{
+input CreateKhsInput {
     mahasiswa_id: Int!
     semester_id: Int!
-    ip: Float!
+    sks_semester: Int!
+    sks_kumulatif: Int!
+    ip_semester: Float!
     ipk: Float!
-    total_sks: Int!
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
 }
 
-type PageInfo{
+input UpdateKhsInput {
+    id: Int
+    mahasiswa_id: Int
+    semester_id: Int
+    sks_semester: Int
+    sks_kumulatif: Int
+    ip_semester: Float
+    ipk: Float
+}
+
+type KhsPaginator {
+    data: [Khs]!
+    paginatorInfo: PageInfo!
+}
+
+type PageInfo {
     hasMorePages: Boolean!
     currentPage: Int!
     lastPage: Int!
     perPage: Int!
     total: Int!
-}
-
-type KhsPaginator{
-    data: [Khs]!
-    paginatorInfo: PageInfo!
-}
-
-
-input UpdateKhsInput{
-    id: Int
-    mahasiswa_id: Int
-    semester_id: Int
-    ip: Float
-    ipk: Float
-    total_sks: Int
 }
 
 extend type Query{

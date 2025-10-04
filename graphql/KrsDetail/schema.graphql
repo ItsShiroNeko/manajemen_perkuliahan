@@ -2,18 +2,43 @@ type KrsDetail {
     id: ID!
     krs_id: Int!
     kelas_id: Int!
+    mata_kuliah_id: Int!
+    sks: Int!
+    status_ambil: String!
     created_at: DateTime
     updated_at: DateTime
     deleted_at: DateTime
+    
+    # Relations
+    krs: Krs! @belongsTo
+    kelas: Kelas! @belongsTo
+    mataKuliah: MataKuliah! @belongsTo
+    nilai: Nilai @hasOne
 }
 
-input CreateKrsDetailInput{
+input CreateKrsDetailInput {
     krs_id: Int!
     kelas_id: Int!
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+    mata_kuliah_id: Int!
+    sks: Int!
+    status_ambil: String
 }
 
-type PageInfo{
+input UpdateKrsDetailInput {
+    id: Int
+    krs_id: Int
+    kelas_id: Int
+    mata_kuliah_id: Int
+    sks: Int
+    status_ambil: String
+}
+
+type KrsDetailPaginator {
+    data: [KrsDetail]!
+    paginatorInfo: PageInfo!
+}
+
+type PageInfo {
     hasMorePages: Boolean!
     currentPage: Int!
     lastPage: Int!
@@ -21,17 +46,6 @@ type PageInfo{
     total: Int!
 }
 
-type KrsDetailPaginator{
-    data: [KrsDetail]!
-    paginatorInfo: PageInfo!
-}
-
-
-input UpdateKrsDetailInput{
-    id: Int
-    krs_id: Int
-    kelas_id: Int
-}
 
 extend type Query{
     allKrsDetail: [KrsDetail!]! @all(model: "KrsDetail\\KrsDetail")

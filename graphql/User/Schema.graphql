@@ -2,39 +2,48 @@ type User {
     id: ID!
     username: String!
     email: String!
+    email_verified_at: DateTime
     role_id: Int!
+    status: String!
+    last_login: DateTime
     created_at: DateTime
     updated_at: DateTime
     deleted_at: DateTime
+    
+    # Relations
+    role: Role! @belongsTo
+    dosen: Dosen @hasOne
+    mahasiswa: Mahasiswa @hasOne
 }
 
-input CreateUserInput{
+input CreateUserInput {
     username: String!
     email: String!
-    role_id: Int!
     password: String!
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+    role_id: Int!
+    status: String
 }
 
-type PageInfo{
+input UpdateUserInput {
+    id: Int
+    username: String
+    email: String
+    password: String
+    role_id: Int
+    status: String
+}
+
+type UserPaginator {
+    data: [User]!
+    paginatorInfo: PageInfo!
+}
+
+type PageInfo {
     hasMorePages: Boolean!
     currentPage: Int!
     lastPage: Int!
     perPage: Int!
     total: Int!
-}
-
-type UserPaginator{
-    data: [User]!
-    paginatorInfo: PageInfo!
-}
-
-
-input UpdateUserInput{
-    id: Int
-    username: String
-    email: String
-    password: String
 }
 
 extend type Query{
@@ -44,9 +53,9 @@ extend type Query{
             search: String
             first: Int
             page: Int
-        ): UserPaginator @field(resolver: "User\\Queries\\UserQuery@all")   
+        ): UserPaginator @field(resolver: "App\\GraphQL\\User\\Queries\\UserQuery@all")   
     userByNama(
-        nama: String! @where(operator: "like", key: "nama")
+        nama: String! @where(operator: "like", key: "username")
     ): [User]! @all(model: "User\\User")
 }
 

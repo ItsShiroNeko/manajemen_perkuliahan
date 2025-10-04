@@ -1,36 +1,53 @@
 type Semester {
     id: ID!
+    kode_semester: String!
+    nama_semester: String!
     tahun_ajaran: String!
     periode: String!
+    tanggal_mulai: DateTime!
+    tanggal_selesai: DateTime!
+    is_active: Boolean!
     created_at: DateTime
     updated_at: DateTime
     deleted_at: DateTime
+    
+    kelas: [Kelas!]! @hasMany
+    krs: [Krs!]! @hasMany
+    khs: [Khs!]! @hasMany
 }
 
-input CreateSemesterInput{
+input CreateSemesterInput {
+    kode_semester: String!
+    nama_semester: String!
     tahun_ajaran: String!
     periode: String!
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+    tanggal_mulai: DateTime!
+    tanggal_selesai: DateTime!
+    is_active: Boolean
 }
 
-type PageInfo{
+input UpdateSemesterInput {
+    id: Int
+    kode_semester: String
+    nama_semester: String
+    tahun_ajaran: String
+    periode: String
+    tanggal_mulai: DateTime
+    tanggal_selesai: DateTime
+    is_active: Boolean
+}
+
+type SemesterPaginator {
+    data: [Semester]!
+    paginatorInfo: PageInfo!
+}
+
+type PageInfo {
     hasMorePages: Boolean!
     currentPage: Int!
     lastPage: Int!
     perPage: Int!
     total: Int!
-}
-
-type SemesterPaginator{
-    data: [Semester]!
-    paginatorInfo: PageInfo!
-}
-
-
-input UpdateSemesterInput{
-    id: Int
-    tahun_ajaran: String
-    periode: String
 }
 
 extend type Query{

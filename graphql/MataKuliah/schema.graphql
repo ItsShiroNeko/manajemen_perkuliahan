@@ -2,41 +2,53 @@ type MataKuliah {
     id: ID!
     kode_mk: String!
     nama_mk: String!
-    sks: Int!   
     jurusan_id: Int!
+    sks: Int!
+    semester_rekomendasi: Int
+    jenis: String!
+    deskripsi: String
     created_at: DateTime
     updated_at: DateTime
     deleted_at: DateTime
+    
+    # Relations
+    jurusan: Jurusan! @belongsTo
+    kelas: [Kelas!]! @hasMany
+    krsDetail: [KrsDetail!]! @hasMany
 }
 
-input CreateMataKuliahInput{
+input CreateMataKuliahInput {
     kode_mk: String!
     nama_mk: String!
-    sks: Int! 
     jurusan_id: Int!
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+    sks: Int!
+    semester_rekomendasi: Int
+    jenis: String
+    deskripsi: String
 }
 
-type PageInfo{
+input UpdateMataKuliahInput {
+    id: Int
+    kode_mk: String
+    nama_mk: String
+    jurusan_id: Int
+    sks: Int
+    semester_rekomendasi: Int
+    jenis: String
+    deskripsi: String
+}
+
+type MataKuliahPaginator {
+    data: [MataKuliah]!
+    paginatorInfo: PageInfo!
+}
+
+type PageInfo {
     hasMorePages: Boolean!
     currentPage: Int!
     lastPage: Int!
     perPage: Int!
     total: Int!
-}
-
-type MataKuliahPaginator{
-    data: [MataKuliah]!
-    paginatorInfo: PageInfo!
-}
-
-
-input UpdateMataKuliahInput{
-    id: Int
-    kode_mk: String
-    nama_mk: String
-    sks: Int
-    jurusan_id: Int
 }
 
 extend type Query{

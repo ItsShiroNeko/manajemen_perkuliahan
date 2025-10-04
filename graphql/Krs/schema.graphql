@@ -2,41 +2,56 @@ type Krs {
     id: ID!
     mahasiswa_id: Int!
     semester_id: Int!
-    tanggal_pengisian: String!
+    tanggal_pengisian: DateTime!
+    tanggal_persetujuan: DateTime
     status: String!
+    total_sks: Int!
+    catatan: String
+    dosen_pa_id: Int
     created_at: DateTime
     updated_at: DateTime
     deleted_at: DateTime
+    
+    # Relations
+    mahasiswa: Mahasiswa! @belongsTo
+    semester: Semester! @belongsTo
+    dosenPa: Dosen @belongsTo(relation: "dosenPa")
+    krsDetail: [KrsDetail!]! @hasMany
 }
 
-input CreateKrsInput{
+input CreateKrsInput {
     mahasiswa_id: Int!
     semester_id: Int!
-    tanggal_pengisian: String!
-    status: String!
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+    tanggal_pengisian: DateTime
+    status: String
+    total_sks: Int
+    catatan: String
+    dosen_pa_id: Int
 }
 
-type PageInfo{
+input UpdateKrsInput {
+    id: Int
+    mahasiswa_id: Int
+    semester_id: Int
+    tanggal_pengisian: DateTime
+    tanggal_persetujuan: DateTime
+    status: String
+    total_sks: Int
+    catatan: String
+    dosen_pa_id: Int
+}
+
+type KrsPaginator {
+    data: [Krs]!
+    paginatorInfo: PageInfo!
+}
+
+type PageInfo {
     hasMorePages: Boolean!
     currentPage: Int!
     lastPage: Int!
     perPage: Int!
     total: Int!
-}
-
-type KrsPaginator{
-    data: [Krs]!
-    paginatorInfo: PageInfo!
-}
-
-
-input UpdateKrsInput{
-    id: Int
-    mahasiswa_id: Int
-    semester_id: Int
-    tanggal_pengisian: String
-    status: String
 }
 
 extend type Query{

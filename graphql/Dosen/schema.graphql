@@ -1,42 +1,82 @@
 type Dosen {
     id: ID!
-    nidn: String!
-    nama: String!
-    jurusan_id: Int!
     user_id: Int!
+    nidn: String!
+    nip: String
+    nama_lengkap: String!
+    gelar_depan: String
+    gelar_belakang: String
+    jurusan_id: Int!
+    jenis_kelamin: String!
+    tempat_lahir: String
+    tanggal_lahir: DateTime
+    alamat: String
+    no_hp: String
+    email_pribadi: String
+    status_kepegawaian: String!
+    jabatan: String
+    status: String!
     created_at: DateTime
     updated_at: DateTime
     deleted_at: DateTime
+    
+    # Relations
+    user: User! @belongsTo
+    jurusan: Jurusan! @belongsTo
+    kelas: [Kelas!]! @hasMany
+    krsPembimbingAkademik: [Krs!]! @hasMany(relation: "dosenPa")
 }
 
-input CreateDosenInput{
-    nidn: String!
-    nama: String!
-    jurusan_id: Int!
+input CreateDosenInput {
     user_id: Int!
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+    nidn: String!
+    nip: String
+    nama_lengkap: String!
+    gelar_depan: String
+    gelar_belakang: String
+    jurusan_id: Int!
+    jenis_kelamin: String!
+    tempat_lahir: String
+    tanggal_lahir: DateTime
+    alamat: String
+    no_hp: String
+    email_pribadi: String
+    status_kepegawaian: String
+    jabatan: String
+    status: String
 }
 
-type PageInfo{
+input UpdateDosenInput {
+    id: Int
+    user_id: Int
+    nidn: String
+    nip: String
+    nama_lengkap: String
+    gelar_depan: String
+    gelar_belakang: String
+    jurusan_id: Int
+    jenis_kelamin: String
+    tempat_lahir: String
+    tanggal_lahir: DateTime
+    alamat: String
+    no_hp: String
+    email_pribadi: String
+    status_kepegawaian: String
+    jabatan: String
+    status: String
+}
+
+type DosenPaginator {
+    data: [Dosen]!
+    paginatorInfo: PageInfo!
+}
+
+type PageInfo {
     hasMorePages: Boolean!
     currentPage: Int!
     lastPage: Int!
     perPage: Int!
     total: Int!
-}
-
-type DosenPaginator{
-    data: [Dosen]!
-    paginatorInfo: PageInfo!
-}
-
-
-input UpdateDosenInput{
-    id: Int
-    nidn: String
-    nama: String
-    jurusan_id: Int
-    user_id: Int
 }
 
 extend type Query{
@@ -48,7 +88,7 @@ extend type Query{
             page: Int
         ): DosenPaginator @field(resolver: "Dosen\\Queries\\DosenQuery@all")   
     DosenByNama(
-        nama: String! @where(operator: "like", key: "nama")
+        nama: String! @where(operator: "like", key: "nama_lengkap")
     ): [Dosen]! @all(model: "Dosen\\Dosen")
 }
 

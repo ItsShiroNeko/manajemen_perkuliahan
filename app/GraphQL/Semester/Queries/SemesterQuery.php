@@ -8,7 +8,7 @@ class SemesterQuery {
     {
         $query = Semester::query();
         if (!empty($args['search'])) {
-            $query->where('tahun_ajaran', 'like', '%' . $args['search'] . '%');
+            $query->where('nama_lengkap', 'like', '%' . $args['search'] . '%');
         }
         $perPage = $args['first'] ?? 10;
         $page = $args['page'] ?? 1;
