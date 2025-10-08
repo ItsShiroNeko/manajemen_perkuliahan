@@ -1,11 +1,11 @@
-<x-layouts.dashboard title="Data Role">
+<x-layouts.dashboard title="Data Mahasiswa">
     <div class="bg-white p-4 rounded shadow w-full">
-        <h1 class="text-2x1 font-bold mb-4">Data Role</h1>
+        <h1 class="text-2xl font-bold mb-4">Data Mahasiswa</h1>
 
         {{-- Search & Tambah Data --}}
         <div class="flex justify-between mb-4">
-            <input type="text" id="search" placeholder="Cari ID atau Nama Role..." class="border p-2 rounded w-64"
-                oninput="searchRole()">
+            <input type="text" id="search" placeholder="Cari NIM, Nama, atau Jurusan..." class="border p-2 rounded w-64"
+                oninput="searchMahasiswa()">
             <button onclick="openAddModal()" class="bg-blue-500 text-white px-4 py-2 rounded">Tambah Data</button>
         </div>
 
@@ -17,17 +17,25 @@
 
         {{-- Table Aktif --}}
         <div id="tableAktif">
-            <table class="w-full border">
-                <thead class="bg-gray-200">
-                    <tr>
-                        <th class="p-2 border">ID</th>
-                        <th class="p-2 border">Nama Role</th>
-                        <th class="p-2 border">Deskripsi</th>
-                        <th class="p-2 border">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody id="dataRole"></tbody>
-            </table>
+            <div class="overflow-x-auto">
+                <table class="w-full border">
+                    <thead class="bg-gray-200">
+                        <tr>
+                            <th class="p-2 border">NIM</th>
+                            <th class="p-2 border">Nama Lengkap</th>
+                            <th class="p-2 border">Jurusan</th>
+                            <th class="p-2 border">Angkatan</th>
+                            <th class="p-2 border">Jenis Kelamin</th>
+                            <th class="p-2 border">Status</th>
+                            <th class="p-2 border">Semester</th>
+                            <th class="p-2 border">IPK</th>
+                            <th class="p-2 border">No HP</th>
+                            <th class="p-2 border">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dataMahasiswa"></tbody>
+                </table>
+            </div>
 
             {{-- Pagination Data Aktif --}}
             <div class="flex justify-between items-center mt-4">
@@ -36,9 +44,10 @@
                 <div class="flex items-center gap-4">
                     <select id="perPage"
                         class="border p-2 rounded"
-                        onchange="loadRoleData(1, 1)">
+                        onchange="loadMahasiswaData(1, 1)">
                         <option value="5">5</option>
                         <option value="10" selected>10</option>
+                        <option value="25">25</option>
                         <option value="50">50</option>
                         <option value="100">100</option>
                     </select>
@@ -59,17 +68,25 @@
 
         {{-- Table Arsip --}}
         <div id="tableArsip" class="hidden">
-            <table class="w-full border">
-                <thead class="bg-gray-200">
-                    <tr>
-                        <th class="p-2 border">ID</th>
-                        <th class="p-2 border">Nama Role</th>
-                        <th class="p-2 border">Deskripsi</th>
-                        <th class="p-2 border">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody id="dataRoleArsip"></tbody>
-            </table>
+            <div class="overflow-x-auto">
+                <table class="w-full border">
+                    <thead class="bg-gray-200">
+                        <tr>
+                            <th class="p-2 border">NIM</th>
+                            <th class="p-2 border">Nama Lengkap</th>
+                            <th class="p-2 border">Jurusan</th>
+                            <th class="p-2 border">Angkatan</th>
+                            <th class="p-2 border">Jenis Kelamin</th>
+                            <th class="p-2 border">Status</th>
+                            <th class="p-2 border">Semester</th>
+                            <th class="p-2 border">IPK</th>
+                            <th class="p-2 border">No HP</th>
+                            <th class="p-2 border">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dataMahasiswaArsip"></tbody>
+                </table>
+            </div>
 
             {{-- Pagination Data Arsip --}}
             <div class="flex justify-between items-center mt-4">
@@ -78,9 +95,10 @@
                 <div class="flex items-center gap-4">
                     <select id="perPageArsip"
                         class="border p-2 rounded"
-                        onchange="loadRoleData(1, 1)">
+                        onchange="loadMahasiswaData(1, 1)">
                         <option value="5">5</option>
                         <option value="10" selected>10</option>
+                        <option value="25">25</option>
                         <option value="50">50</option>
                         <option value="100">100</option>
                     </select>
@@ -100,13 +118,13 @@
         </div>
 
         {{-- Modal --}}
-        @include('components.modal.role.modal-add')
-        @include('components.modal.role.modal-edit')
+        @include('components.modal.mahasiswa.modal-add')
+        @include('components.modal.mahasiswa.modal-edit')
 
         {{-- Script --}}
-        <script src="{{ asset('js/role/role.js') }}"></script>
-        <script src="{{ asset('js/role/role-create.js') }}"></script>
-        <script src="{{ asset('js/role/role-edit.js') }}"></script>
+        <script src="{{ asset('js/mahasiswa/mahasiswa.js') }}"></script>
+        <script src="{{ asset('js/mahasiswa/mahasiswa-create.js') }}"></script>
+        <script src="{{ asset('js/mahasiswa/mahasiswa-edit.js') }}"></script>
 
         <script>
             function showTab(tab) {
@@ -131,7 +149,7 @@
                     tableAktif.classList.add('hidden');
                 }
 
-                loadRoleData(currentPageAktif, currentPageArsip);
+                loadMahasiswaData(currentPageAktif, currentPageArsip);
             }
         </script>
     </div>

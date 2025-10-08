@@ -84,4 +84,20 @@ class AuthController extends Controller
     {
         return view('user.index');
     }
+    public function mahasiswa()
+    {
+        return view('mahasiswa.index');
+    }
+    public function mahasiswa_detail($id)
+    {
+        return view('mahasiswa_detail.index');
+    }
+    public function dosen()
+    {
+        return view('dosen.index');
+    }
+    public function dosen_detail($id)
+    {
+        return view('dosen_detail.index');
+    }
 }

@@ -1,9 +1,14 @@
 const API_URL = "/graphql";
-let currentPage = 1;
+let currentPageAktif = 1;
+let currentPageArsip = 1;
 
-async function loadRoleData(page = 1) {
-    currentPage = page;
-    const perPage = parseInt(document.getElementById("perPage")?.value || 10);
+async function loadRoleData(pageAktif = 1, pageArsip = 1) {
+    currentPageAktif = pageAktif;
+    currentPageArsip = pageArsip;
+    
+    // Ambil perPage dari select yang sesuai dengan tab aktif
+    const perPageAktif = parseInt(document.getElementById("perPage")?.value || 10);
+    const perPageArsip = parseInt(document.getElementById("perPageArsip")?.value || 10);
     const searchValue = document.getElementById("search")?.value.trim() || "";
 
     // --- Query Data Aktif ---
@@ -14,7 +19,7 @@ async function loadRoleData(page = 1) {
             paginatorInfo { currentPage lastPage total hasMorePages perPage }
         }
     }`;
-    const variablesAktif = { first: perPage, page, search: searchValue };
+    const variablesAktif = { first: perPageAktif, page: pageAktif, search: searchValue };
 
     const resAktif = await fetch(API_URL, {
         method: 'POST',
@@ -32,7 +37,7 @@ async function loadRoleData(page = 1) {
             paginatorInfo { currentPage lastPage total hasMorePages perPage }
         }
     }`;
-    const variablesArsip = { first: perPage, page, search: searchValue };
+    const variablesArsip = { first: perPageArsip, page: pageArsip, search: searchValue };
 
     const resArsip = await fetch(API_URL, {
         method: 'POST',
@@ -42,13 +47,22 @@ async function loadRoleData(page = 1) {
     const dataArsip = await resArsip.json();
     renderRoleTable(dataArsip?.data?.allRoleArsip?.data || [], 'dataRoleArsip', false);
 
-    // --- Update info pagination (untuk Data Aktif) ---
-    const pageInfo = dataAktif?.data?.allRolePaginate?.paginatorInfo;
-    if (pageInfo) {
-        document.getElementById("pageInfo").innerText =
-            `Halaman ${pageInfo.currentPage} dari ${pageInfo.lastPage} (Total: ${pageInfo.total})`;
-        document.getElementById("prevBtn").disabled = pageInfo.currentPage <= 1;
-        document.getElementById("nextBtn").disabled = !pageInfo.hasMorePages;
+    // --- Update info pagination untuk Data Aktif ---
+    const pageInfoAktif = dataAktif?.data?.allRolePaginate?.paginatorInfo;
+    if (pageInfoAktif) {
+        document.getElementById("pageInfoAktif").innerText =
+            `Halaman ${pageInfoAktif.currentPage} dari ${pageInfoAktif.lastPage} (Total: ${pageInfoAktif.total})`;
+        document.getElementById("prevBtnAktif").disabled = pageInfoAktif.currentPage <= 1;
+        document.getElementById("nextBtnAktif").disabled = !pageInfoAktif.hasMorePages;
+    }
+
+    // --- Update info pagination untuk Data Arsip ---
+    const pageInfoArsip = dataArsip?.data?.allRoleArsip?.paginatorInfo;
+    if (pageInfoArsip) {
+        document.getElementById("pageInfoArsip").innerText =
+            `Halaman ${pageInfoArsip.currentPage} dari ${pageInfoArsip.lastPage} (Total: ${pageInfoArsip.total})`;
+        document.getElementById("prevBtnArsip").disabled = pageInfoArsip.currentPage <= 1;
+        document.getElementById("nextBtnArsip").disabled = !pageInfoArsip.hasMorePages;
     }
 }
 
@@ -97,8 +111,12 @@ async function hapusRole(id) {
     mutation {
         deleteRole(id: ${id}) { id }
     }`;
-    await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ query: mutation }) });
-    loadRoleData(currentPage);
+    await fetch(API_URL, { 
+        method: 'POST', 
+        headers: { 'Content-Type': 'application/json' }, 
+        body: JSON.stringify({ query: mutation }) 
+    });
+    loadRoleData(currentPageAktif, currentPageArsip);
 }
 
 async function restoreRole(id) {
@@ -107,8 +125,12 @@ async function restoreRole(id) {
     mutation {
         restoreRole(id: ${id}) { id }
     }`;
-    await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ query: mutation }) });
-    loadRoleData(currentPage);
+    await fetch(API_URL, { 
+        method: 'POST', 
+        headers: { 'Content-Type': 'application/json' }, 
+        body: JSON.stringify({ query: mutation }) 
+    });
+    loadRoleData(currentPageAktif, currentPageArsip);
 }
 
 async function forceDeleteRole(id) {
@@ -117,21 +139,35 @@ async function forceDeleteRole(id) {
     mutation {
         forceDeleteRole(id: ${id}) { id }
     }`;
-    await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ query: mutation }) });
-    loadRoleData(currentPage);
+    await fetch(API_URL, { 
+        method: 'POST', 
+        headers: { 'Content-Type': 'application/json' }, 
+        body: JSON.stringify({ query: mutation }) 
+    });
+    loadRoleData(currentPageAktif, currentPageArsip);
 }
 
 // --- Search ---
 async function searchRole() {
-    const keyword = document.getElementById('search').value.trim();
-    loadRoleData(1);
-}
-function prevPage() {
-    if (currentPage > 1) loadRoleData(currentPage - 1);
+    loadRoleData(1, 1);
 }
 
-function nextPage() {
-    loadRoleData(currentPage + 1);
+// --- Pagination untuk Data Aktif ---
+function prevPageAktif() {
+    if (currentPageAktif > 1) loadRoleData(currentPageAktif - 1, currentPageArsip);
+}
+
+function nextPageAktif() {
+    loadRoleData(currentPageAktif + 1, currentPageArsip);
+}
+
+// --- Pagination untuk Data Arsip ---
+function prevPageArsip() {
+    if (currentPageArsip > 1) loadRoleData(currentPageAktif, currentPageArsip - 1);
+}
+
+function nextPageArsip() {
+    loadRoleData(currentPageAktif, currentPageArsip + 1);
 }
 
 document.addEventListener("DOMContentLoaded", () => loadRoleData());

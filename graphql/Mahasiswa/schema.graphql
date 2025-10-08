@@ -91,9 +91,14 @@ extend type Query{
             search: String
             first: Int
             page: Int
-        ): MahasiswaPaginator @field(resolver: "Mahasiswa\\Queries\\MahasiswaQuery@all") 
-    mahasiswaByTahun(
-        tahun_ajaran: String! @where(operator: "like", key: "nama_lengkap")
+        ): MahasiswaPaginator @field(resolver: "App\\GraphQL\\Mahasiswa\\Queries\\MahasiswaQuery@all") 
+        allMahasiswaArsip(
+        search: String
+        first: Int
+        page: Int
+    ): MahasiswaPaginator @field(resolver: "App\\GraphQL\\Mahasiswa\\Queries\\MahasiswaQuery@allArsip")
+    mahasiswaByNama(
+        nama_lengkap: String! @where(operator: "like", key: "nama_lengkap")
     ): [Mahasiswa]! @all(model: "Mahasiswa\\Mahasiswa")
 }
 
