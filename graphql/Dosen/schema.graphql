@@ -86,10 +86,15 @@ extend type Query{
             search: String
             first: Int
             page: Int
-        ): DosenPaginator @field(resolver: "Dosen\\Queries\\DosenQuery@all")   
+        ): DosenPaginator @field(resolver: "App\\GraphQL\\Dosen\\Queries\\DosenQuery@all")   
     DosenByNama(
         nama: String! @where(operator: "like", key: "nama_lengkap")
     ): [Dosen]! @all(model: "Dosen\\Dosen")
+    allDosenArsip(
+        search: String
+        first: Int
+        page: Int
+    ): DosenPaginator @field(resolver: "App\\GraphQL\\Dosen\\Queries\\DosenQuery@allArsip")
 }
 
 extend type Mutation {
