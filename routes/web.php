@@ -19,5 +19,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/mahasiswa_detail/{id}', [AuthController::class, 'mahasiswa_detail'])->name('mahasiswa_detail.index');
     Route::get('/dosen', [AuthController::class, 'dosen'])->name('dosen.index');
     Route::get('/dosen_detail/{id}', [AuthController::class, 'dosen_detail'])->name('dosen_detail.index');
+    Route::get('/fakultas', [AuthController::class, 'fakultas'])->name('fakultas.index');
+    Route::get('/jurusan', [AuthController::class, 'jurusan'])->name('jurusan.index');
 
 });

@@ -158,7 +158,6 @@ function renderMahasiswaTable(mahasiswa, tableId, isActive) {
     });
 }
 
-// --- Mutations ---
 async function hapusMahasiswa(id) {
     if (!confirm('Pindahkan mahasiswa ini ke arsip?')) return;
     const mutation = `

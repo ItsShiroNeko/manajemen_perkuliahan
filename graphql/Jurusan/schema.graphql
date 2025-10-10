@@ -56,7 +56,12 @@ extend type Query{
             search: String
             first: Int
             page: Int
-        ): JurusanPaginator @field(resolver: "Jurusan\\Queries\\JurusanQuery@all")   
+        ): JurusanPaginator @field(resolver: "App\\GraphQL\\Jurusan\\Queries\\JurusanQuery@all")   
+    allJurusanArsip(
+            search: String
+            first: Int
+            page: Int
+        ): JurusanPaginator @field(resolver: "App\\GraphQL\\Jurusan\\Queries\\JurusanQuery@allArsip")   
     jurusanByNama(
         nama_jurusan: String! @where(operator: "like", key: "nama_jurusan")
     ): [Jurusan]! @all(model: "Jurusan\\Jurusan")

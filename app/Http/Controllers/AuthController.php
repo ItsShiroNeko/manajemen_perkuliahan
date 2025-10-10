@@ -100,4 +100,12 @@ class AuthController extends Controller
     {
         return view('dosen_detail.index');
     }
+    public function fakultas()
+    {
+        return view('fakultas.index');
+    }
+    public function jurusan()
+    {
+        return view('jurusan.index');
+    }
 }

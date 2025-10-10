@@ -53,7 +53,12 @@ extend type Query{
             search: String
             first: Int
             page: Int
-        ): FakultasPaginator @field(resolver: "Fakultas\\Queries\\FakultasQuery@all")   
+        ): FakultasPaginator @field(resolver: "App\\GraphQL\\Fakultas\\Queries\\FakultasQuery@all")   
+    allFakultasArsip(
+            search: String
+            first: Int
+            page: Int
+        ): FakultasPaginator @field(resolver: "App\\GraphQL\\Fakultas\\Queries\\FakultasQuery@allArsip")   
     fakultasByNama(
         nama_fakultas: String! @where(operator: "like", key: "nama_fakultas")
     ): [Fakultas]! @all(model: "Fakultas\\Fakultas")

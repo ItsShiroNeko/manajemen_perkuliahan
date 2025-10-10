@@ -177,7 +177,6 @@ function openEditModal() {
     }
 }
 
-// Delete/Archive
 async function confirmDelete() {
     if (!confirm(`Arsipkan dosen ${currentDosenData.nama_lengkap}?`)) return;
     
@@ -194,7 +193,7 @@ async function confirmDelete() {
         });
         
         alert('Dosen berhasil diarsipkan');
-        window.location.href = '/dosen'; // Redirect ke list
+        window.location.href = '/dosen';
         
     } catch (error) {
         console.error('Error:', error);
@@ -202,7 +201,6 @@ async function confirmDelete() {
     }
 }
 
-// Load data on page load
 document.addEventListener('DOMContentLoaded', () => {
     loadDosenDetail();
 });
