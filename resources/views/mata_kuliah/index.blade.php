@@ -1,11 +1,11 @@
-<x-layouts.dashboard title="Data Semester">
+<x-layouts.dashboard title="Data MataKuliah">
     <div class="bg-white p-4 rounded shadow w-full">
-        <h1 class="text-2x1 font-bold mb-4">Data Semester</h1>
+        <h1 class="text-2x1 font-bold mb-4">Data MataKuliah</h1>
 
         {{-- Search & Tambah Data --}}
         <div class="flex justify-between mb-4">
-            <input type="text" id="search" placeholder="Cari ID atau Nama Semester..." class="border p-2 rounded w-64"
-                oninput="searchSemester()">
+            <input type="text" id="search" placeholder="Cari ID atau Nama MataKuliah..." class="border p-2 rounded w-64"
+                oninput="searchMataKuliah()">
             <button onclick="openAddModal()" class="bg-blue-500 text-white px-4 py-2 rounded">Tambah Data</button>
         </div>
 
@@ -21,16 +21,17 @@
                 <thead class="bg-gray-200">
                     <tr>
                         <th class="p-2 border">ID</th>
-                        <th class="p-2 border">Kode Semester</th>
-                        <th class="p-2 border">Nama Semester</th>
-                        <th class="p-2 border">Tahun Ajaran</th>
-                        <th class="p-2 border">Periode</th>
-                        <th class="p-2 border">Tanggal Mulai</th>
-                        <th class="p-2 border">Tanggal Selesai</th>
+                        <th class="p-2 border">Kode Mata Kuliah</th>
+                        <th class="p-2 border">Nama Mata Kuliah</th>
+                        <th class="p-2 border">Jurusan</th>
+                        <th class="p-2 border">SKS</th>
+                        <th class="p-2 border">Semester Rekomendasi</th>
+                        <th class="p-2 border">Jenis Mata Kuliah</th>
+                        <th class="p-2 border">Deskripsi</th>
                         <th class="p-2 border">Aksi</th>
                     </tr>
                 </thead>
-                <tbody id="dataSemester"></tbody>
+                <tbody id="dataMataKuliah"></tbody>
             </table>
 
             {{-- Pagination Data Aktif --}}
@@ -40,7 +41,7 @@
                 <div class="flex items-center gap-4">
                     <select id="perPage"
                         class="border p-2 rounded"
-                        onchange="loadSemesterData(1, 1)">
+                        onchange="loadMataKuliahData(1, 1)">
                         <option value="5">5</option>
                         <option value="10" selected>10</option>
                         <option value="50">50</option>
@@ -67,16 +68,17 @@
                 <thead class="bg-gray-200">
                     <tr>
                         <th class="p-2 border">ID</th>
-                        <th class="p-2 border">Kode Semester</th>
-                        <th class="p-2 border">Nama Semester</th>
-                        <th class="p-2 border">Tahun Ajaran</th>
-                        <th class="p-2 border">Periode</th>
-                        <th class="p-2 border">Tanggal Mulai</th>
-                        <th class="p-2 border">Tanggal Selesai</th>
+                        <th class="p-2 border">Kode Mata Kuliah</th>
+                        <th class="p-2 border">Nama Mata Kuliah</th>
+                        <th class="p-2 border">Jurusan</th>
+                        <th class="p-2 border">SKS</th>
+                        <th class="p-2 border">Semester Rekomendasi</th>
+                        <th class="p-2 border">Jenis Mata Kuliah</th>
+                        <th class="p-2 border">Deskripsi</th>
                         <th class="p-2 border">Aksi</th>
                     </tr>
                 </thead>
-                <tbody id="dataSemesterArsip"></tbody>
+                <tbody id="dataMataKuliahArsip"></tbody>
             </table>
 
             {{-- Pagination Data Arsip --}}
@@ -86,7 +88,7 @@
                 <div class="flex items-center gap-4">
                     <select id="perPageArsip"
                         class="border p-2 rounded"
-                        onchange="loadSemesterData(1, 1)">
+                        onchange="loadMataKuliahData(1, 1)">
                         <option value="5">5</option>
                         <option value="10" selected>10</option>
                         <option value="50">50</option>
@@ -108,13 +110,13 @@
         </div>
 
         {{-- Modal --}}
-        @include('components.modal.semester.modal-add')
-        @include('components.modal.semester.modal-edit')
+        @include('components.modal.mata_kuliah.modal-add')
+        @include('components.modal.mata_kuliah.modal-edit')
 
         {{-- Script --}}
-        <script src="{{ asset('js/semester/semester.js') }}"></script>
-        <script src="{{ asset('js/semester/semester-create.js') }}"></script>
-        <script src="{{ asset('js/semester/semester-edit.js') }}"></script>
+        <script src="{{ asset('js/mata_kuliah/mata_kuliah.js') }}"></script>
+        <script src="{{ asset('js/mata_kuliah/mata_kuliah-create.js') }}"></script>
+        <script src="{{ asset('js/mata_kuliah/mata_kuliah-edit.js') }}"></script>
 
         <script>
             function showTab(tab) {
@@ -139,7 +141,7 @@
                     tableAktif.classList.add('hidden');
                 }
 
-                loadSemesterData(currentPageAktif, currentPageArsip);
+                loadRuanganData(currentPageAktif, currentPageArsip);
             }
         </script>
     </div>

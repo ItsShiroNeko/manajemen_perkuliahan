@@ -4,9 +4,8 @@ type Semester {
     nama_semester: String!
     tahun_ajaran: String!
     periode: String!
-    tanggal_mulai: DateTime!
-    tanggal_selesai: DateTime!
-    is_active: Boolean!
+    tanggal_mulai: Date!
+    tanggal_selesai: Date!
     created_at: DateTime
     updated_at: DateTime
     deleted_at: DateTime
@@ -21,9 +20,8 @@ input CreateSemesterInput {
     nama_semester: String!
     tahun_ajaran: String!
     periode: String!
-    tanggal_mulai: DateTime!
-    tanggal_selesai: DateTime!
-    is_active: Boolean
+    tanggal_mulai: Date!
+    tanggal_selesai: Date!
 }
 
 input UpdateSemesterInput {
@@ -32,9 +30,8 @@ input UpdateSemesterInput {
     nama_semester: String
     tahun_ajaran: String
     periode: String
-    tanggal_mulai: DateTime
-    tanggal_selesai: DateTime
-    is_active: Boolean
+    tanggal_mulai: Date
+    tanggal_selesai: Date
 }
 
 type SemesterPaginator {
@@ -57,7 +54,12 @@ extend type Query{
             search: String
             first: Int
             page: Int
-        ): SemesterPaginator @field(resolver: "Semester\\Queries\\SemesterQuery@all")   
+        ): SemesterPaginator @field(resolver: "App\\GraphQL\\Semester\\Queries\\SemesterQuery@all")   
+    allSemesterArsip(
+            search: String
+            first: Int
+            page: Int
+        ): SemesterPaginator @field(resolver: "App\\GraphQL\\Semester\\Queries\\SemesterQuery@allArsip")   
     semesterByTahun(
         tahun_ajaran: String! @where(operator: "like", key: "tahun_ajaran")
     ): [Semester]! @all(model: "Semester\\Semester")

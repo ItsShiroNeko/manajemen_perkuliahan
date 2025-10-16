@@ -1,0 +1,88 @@
+type Ruangan {
+    id: ID!
+    kode_ruangan: String!
+    nama_ruangan: String!
+    gedung: String
+    lantai: Int!
+    kapasitas: Int!
+    jenis_ruangan: String!
+    fasilitas: String
+    created_at: DateTime
+    updated_at: DateTime
+    deleted_at: DateTime
+    
+    # Relations
+    jadwalKuliah: [JadwalKuliah!]! @hasMany
+}
+
+input CreateRuanganInput {
+    kode_ruangan: String!
+    nama_ruangan: String!
+    gedung: String
+    lantai: Int
+    kapasitas: Int!
+    jenis_ruangan: String
+    fasilitas: String
+}
+
+input UpdateRuanganInput {
+    id: Int
+    kode_ruangan: String
+    nama_ruangan: String
+    gedung: String
+    lantai: Int
+    kapasitas: Int
+    jenis_ruangan: String
+    fasilitas: String
+}
+
+type RuanganPaginator {
+    data: [Ruangan]!
+    paginatorInfo: PageInfo!
+}
+
+type PageInfo {
+    hasMorePages: Boolean!
+    currentPage: Int!
+    lastPage: Int!
+    perPage: Int!
+    total: Int!
+}
+
+extend type Query{
+    allRuangan: [Ruangan!]! @all(model: "Ruangan\\Ruangan")
+    ruangan(id: ID! @eq(key: "id")): Ruangan @find(model: "Ruangan\\Ruangan")
+    allRuanganPaginate(
+            search: String
+            first: Int
+            page: Int
+        ): RuanganPaginator @field(resolver: "App\\GraphQL\\Ruangan\\Queries\\RuanganQuery@all")   
+    allRuanganArsip(
+            search: String
+            first: Int
+            page: Int
+        ): RuanganPaginator @field(resolver: "App\\GraphQL\\Ruangan\\Queries\\RuanganQuery@allArsip")   
+    ruanganByKode(
+        nama: String! @where(operator: "like", key: "kode_ruangan")
+    ): [Ruangan]! @all(model: "Ruangan\\Ruangan")
+}
+
+extend type Mutation {
+  createRuangan(input: CreateRuanganInput! @spread): Ruangan
+    @create(model: "Ruangan\\Ruangan")
+
+  updateRuangan(
+    id: ID! @eq(key: "id"),
+    input: UpdateRuanganInput! @spread
+  ): Ruangan
+    @update(model: "Ruangan\\Ruangan")
+
+  deleteRuangan(id: ID! @eq(key: "id")): Ruangan
+    @delete(model: "Ruangan\\Ruangan")
+
+  restoreRuangan(id: ID!): Ruangan
+    @field(resolver: "Ruangan\\Mutations\\RuanganMutation@restore")
+
+  forceDeleteRuangan(id: ID!): Ruangan
+    @field(resolver: "Ruangan\\Mutations\\RuanganMutation@forceDelete")
+}

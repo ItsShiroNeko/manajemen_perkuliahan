@@ -108,4 +108,32 @@ class AuthController extends Controller
     {
         return view('jurusan.index');
     }
+    public function semester()
+    {
+        return view('semester.index');
+    }
+    public function ruangan()
+    {
+        return view('ruangan.index');
+    }
+    public function mata_kuliah()
+    {
+        return view('mata_kuliah.index');
+    }
+    public function kelas()
+    {
+        return view('kelas.index');
+    }
+    public function jadwal()
+    {
+        return view('jadwal.index');
+    }
+    public function khs()
+    {
+        return view('khs.index');
+    }
+    public function krs()
+    {
+        return view('krs.index');
+    }
 }

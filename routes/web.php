@@ -21,5 +21,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/dosen_detail/{id}', [AuthController::class, 'dosen_detail'])->name('dosen_detail.index');
     Route::get('/fakultas', [AuthController::class, 'fakultas'])->name('fakultas.index');
     Route::get('/jurusan', [AuthController::class, 'jurusan'])->name('jurusan.index');
+    Route::get('/semester', [AuthController::class, 'semester'])->name('semester.index');
+    Route::get('/ruangan', [AuthController::class, 'ruangan'])->name('ruangan.index');
+    Route::get('/mata_kuliah', [AuthController::class, 'mata_kuliah'])->name('mata_kuliah.index');
+    Route::get('/kelas', [AuthController::class, 'kelas'])->name('kelas.index');
+    Route::get('/jadwal', [AuthController::class, 'jadwal'])->name('jadwal.index');
+    Route::get('/khs', [AuthController::class, 'khs'])->name('khs.index');
+    Route::get('/krs', [AuthController::class, 'krs'])->name('krs.index');
 
 });

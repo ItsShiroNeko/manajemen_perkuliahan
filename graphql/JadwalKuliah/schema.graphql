@@ -3,8 +3,8 @@ type JadwalKuliah {
     kelas_id: Int!
     ruangan_id: Int!
     hari: String!
-    jam_mulai: String!
-    jam_selesai: String!
+    jam_mulai: Time!
+    jam_selesai: Time!
     keterangan: String
     created_at: DateTime
     updated_at: DateTime
@@ -19,8 +19,8 @@ input CreateJadwalKuliahInput {
     kelas_id: Int!
     ruangan_id: Int!
     hari: String!
-    jam_mulai: String!
-    jam_selesai: String!
+    jam_mulai: Time!
+    jam_selesai: Time!
     keterangan: String
 }
 
@@ -29,8 +29,8 @@ input UpdateJadwalKuliahInput {
     kelas_id: Int
     ruangan_id: Int
     hari: String
-    jam_mulai: String
-    jam_selesai: String
+    jam_mulai: Time
+    jam_selesai: Time
     keterangan: String
 }
 
@@ -54,7 +54,12 @@ extend type Query{
             search: String
             first: Int
             page: Int
-        ): JadwalKuliahPaginator @field(resolver: "JadwalKuliah\\Queries\\JadwalKuliahQuery@all")   
+        ): JadwalKuliahPaginator @field(resolver: "App\\GraphQL\\JadwalKuliah\\Queries\\JadwalKuliahQuery@all")   
+    allJadwalKuliahArsip(
+            search: String
+            first: Int
+            page: Int
+        ): JadwalKuliahPaginator @field(resolver: "App\\GraphQL\\JadwalKuliah\\Queries\\JadwalKuliahQuery@allArsip")   
     JadwalKuliahByNama(
         nama_JadwalKuliah: String! @where(operator: "like", key: "nama_JadwalKuliah")
     ): [JadwalKuliah]! @all(model: "JadwalKuliah\\JadwalKuliah")

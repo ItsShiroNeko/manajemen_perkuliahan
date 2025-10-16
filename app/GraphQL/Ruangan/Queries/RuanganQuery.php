@@ -1,14 +1,14 @@
 <?php 
-namespace App\GraphQL\Khs\Queries;
+namespace App\GraphQL\Ruangan\Queries;
 
-use App\Models\Khs\Khs;
+use App\Models\Ruangan\Ruangan;
 
-class KhsQuery {
+class RuanganQuery {
     public function allArsip($_, array $args)
     {
-        $query = Khs::onlyTrashed();
+        $query = Ruangan::onlyTrashed();
         if (!empty($args['search'])) {
-            $query->where('mahasiswa_id', 'like', '%' . $args['search'] . '%');
+            $query->where('nama_ruangan', 'like', '%' . $args['search'] . '%');
         }
 
         $perPage = $args['first'] ?? 10;
@@ -29,9 +29,9 @@ class KhsQuery {
     }
     public function all($_, array $args)
     {
-        $query = Khs::query();
+        $query = Ruangan::query();
         if (!empty($args['search'])) {
-            $query->where('mahasiswa_id', 'like', '%' . $args['search'] . '%');
+            $query->where('nama_ruangan', 'like', '%' . $args['search'] . '%');
         }
         $perPage = $args['first'] ?? 10;
         $page = $args['page'] ?? 1;

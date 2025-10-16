@@ -58,7 +58,12 @@ extend type Query{
             search: String
             first: Int
             page: Int
-        ): MataKuliahPaginator @field(resolver: "MataKuliah\\Queries\\MataKuliahQuery@all")   
+        ): MataKuliahPaginator @field(resolver: "App\\GraphQL\\MataKuliah\\Queries\\MataKuliahQuery@all")   
+    allMataKuliahArsip(
+            search: String
+            first: Int
+            page: Int
+        ): MataKuliahPaginator @field(resolver: "App\\GraphQL\\MataKuliah\\Queries\\MataKuliahQuery@allArsip")   
     matakuliahByNama(
         nama_mk: String! @where(operator: "like", key: "nama_mk")
     ): [MataKuliah]! @all(model: "MataKuliah\\MataKuliah")

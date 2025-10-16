@@ -61,7 +61,12 @@ extend type Query{
             search: String
             first: Int
             page: Int
-        ): KelasPaginator @field(resolver: "Kelas\\Queries\\KelasQuery@all")   
+        ): KelasPaginator @field(resolver: "App\\GraphQL\\Kelas\\Queries\\KelasQuery@all")   
+    allKelasArsip(
+            search: String
+            first: Int
+            page: Int
+        ): KelasPaginator @field(resolver: "App\\GraphQL\\Kelas\\Queries\\KelasQuery@allArsip")   
     kelasByNama(
         nama_kelas: String! @where(operator: "like", key: "nama_kelas")
     ): [Kelas]! @all(model: "Kelas\\Kelas")
