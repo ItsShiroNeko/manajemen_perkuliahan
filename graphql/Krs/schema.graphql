@@ -2,8 +2,8 @@ type Krs {
     id: ID!
     mahasiswa_id: Int!
     semester_id: Int!
-    tanggal_pengisian: DateTime!
-    tanggal_persetujuan: DateTime
+    tanggal_pengisian: Date!
+    tanggal_persetujuan: Date
     status: String!
     total_sks: Int!
     catatan: String
@@ -22,7 +22,7 @@ type Krs {
 input CreateKrsInput {
     mahasiswa_id: Int!
     semester_id: Int!
-    tanggal_pengisian: DateTime
+    tanggal_pengisian: Date
     status: String
     total_sks: Int
     catatan: String
@@ -33,8 +33,8 @@ input UpdateKrsInput {
     id: Int
     mahasiswa_id: Int
     semester_id: Int
-    tanggal_pengisian: DateTime
-    tanggal_persetujuan: DateTime
+    tanggal_pengisian: Date
+    tanggal_persetujuan: Date
     status: String
     total_sks: Int
     catatan: String
@@ -61,7 +61,12 @@ extend type Query{
             search: String
             first: Int
             page: Int
-        ): KrsPaginator @field(resolver: "Krs\\Queries\\KrsQuery@all")   
+        ): KrsPaginator @field(resolver: "App\\GraphQL\\Krs\\Queries\\KrsQuery@all")   
+    allKrsArsip(
+            search: String
+            first: Int
+            page: Int
+        ): KrsPaginator @field(resolver: "App\\GraphQL\\Krs\\Queries\\KrsQuery@allArsip")   
     krsByMahasiswa(
         nama_mk: String! @where(operator: "like", key: "nama_mk")
     ): [Krs]! @all(model: "Krs\\Krs")

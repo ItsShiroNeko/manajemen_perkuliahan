@@ -136,4 +136,8 @@ class AuthController extends Controller
     {
         return view('krs.index');
     }
+    public function krs_detail  ()
+    {
+        return view('krs_detail.index');
+    }
 }

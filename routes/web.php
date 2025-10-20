@@ -28,5 +28,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/jadwal', [AuthController::class, 'jadwal'])->name('jadwal.index');
     Route::get('/khs', [AuthController::class, 'khs'])->name('khs.index');
     Route::get('/krs', [AuthController::class, 'krs'])->name('krs.index');
+    Route::get('/krs_detail/{id}', [AuthController::class, 'krs_detail'])->name('krs_detail.index');
 
 });
