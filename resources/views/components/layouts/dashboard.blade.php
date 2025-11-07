@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $title ?? 'Dashboard' }} - Manajemen Perkuliahan</title>
     @vite(['resources/css/app.css','resources/js/app.js'])
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <style>
         @keyframes slideIn {
@@ -83,14 +84,14 @@
 
             {{-- Navigation --}}
             <nav class="flex-1 p-4 space-y-1 overflow-y-auto">
-                <a href="{{ route('dashboard') }}" class="sidebar-link active flex items-center px-4 py-3 rounded-xl bg-white/10 hover:bg-white/20 transition-all duration-300 group">
+                <a href="{{ route('admin.dashboard') }}" class="sidebar-link active flex items-center px-4 py-3 rounded-xl bg-white/10 hover:bg-white/20 transition-all duration-300 group">
                     <div class="bg-white/20 p-2 rounded-lg mr-3 group-hover:scale-110 transition-transform">
                         <i class="fas fa-home text-sm"></i>
                     </div>
                     <span class="font-medium">Dashboard</span>
                 </a>
                 
-                <a href="#" class="sidebar-link flex items-center px-4 py-3 rounded-xl hover:bg-white/20 transition-all duration-300 group">
+                <a href="{{ route('admin.mahasiswa') }}" class="sidebar-link flex items-center px-4 py-3 rounded-xl hover:bg-white/20 transition-all duration-300 group">
                     <div class="bg-white/0 group-hover:bg-white/20 p-2 rounded-lg mr-3 group-hover:scale-110 transition-all">
                         <i class="fas fa-users text-sm"></i>
                     </div>
@@ -98,14 +99,14 @@
                     <span class="ml-auto bg-red-500 text-xs px-2 py-1 rounded-full">12</span>
                 </a>
                 
-                <a href="#" class="sidebar-link flex items-center px-4 py-3 rounded-xl hover:bg-white/20 transition-all duration-300 group">
+                <a href="{{ route('admin.mata_kuliah') }}" class="sidebar-link flex items-center px-4 py-3 rounded-xl hover:bg-white/20 transition-all duration-300 group">
                     <div class="bg-white/0 group-hover:bg-white/20 p-2 rounded-lg mr-3 group-hover:scale-110 transition-all">
                         <i class="fas fa-book text-sm"></i>
                     </div>
                     <span class="font-medium">Mata Kuliah</span>
                 </a>
                 
-                <a href="#" class="sidebar-link flex items-center px-4 py-3 rounded-xl hover:bg-white/20 transition-all duration-300 group">
+                <a href="{{ route('admin.jadwal') }}" class="sidebar-link flex items-center px-4 py-3 rounded-xl hover:bg-white/20 transition-all duration-300 group">
                     <div class="bg-white/0 group-hover:bg-white/20 p-2 rounded-lg mr-3 group-hover:scale-110 transition-all">
                         <i class="fas fa-clipboard-list text-sm"></i>
                     </div>
@@ -120,13 +121,6 @@
                             <i class="fas fa-chart-bar text-sm"></i>
                         </div>
                         <span class="font-medium">Laporan</span>
-                    </a>
-                    
-                    <a href="#" class="sidebar-link flex items-center px-4 py-3 rounded-xl hover:bg-white/20 transition-all duration-300 group">
-                        <div class="bg-white/0 group-hover:bg-white/20 p-2 rounded-lg mr-3 group-hover:scale-110 transition-all">
-                            <i class="fas fa-cog text-sm"></i>
-                        </div>
-                        <span class="font-medium">Pengaturan</span>
                     </a>
                 </div>
             </nav>
@@ -171,12 +165,6 @@
                         <input type="text" placeholder="Cari..." class="pl-10 pr-4 py-2 rounded-lg border border-gray-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 outline-none transition-all w-64">
                         <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
                     </div>
-
-                    {{-- Notifications --}}
-                    <button class="relative p-2 rounded-lg hover:bg-gray-100 transition-colors">
-                        <i class="fas fa-bell text-gray-600 text-xl"></i>
-                        <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-                    </button>
 
                     {{-- Profile Badge --}}
                     <div class="flex items-center space-x-3 pl-4 border-l border-gray-200">
@@ -456,11 +444,6 @@
             <footer class="bg-white border-t border-gray-200 px-8 py-4">
                 <div class="flex items-center justify-between text-sm text-gray-600">
                     <p>&copy; 2025 Sistem Akademik. All rights reserved.</p>
-                    <div class="flex space-x-4">
-                        <a href="#" class="hover:text-emerald-600 transition-colors">Bantuan</a>
-                        <a href="#" class="hover:text-emerald-600 transition-colors">Privacy</a>
-                        <a href="#" class="hover:text-emerald-600 transition-colors">Terms</a>
-                    </div>
                 </div>
             </footer>
 

@@ -85,7 +85,13 @@ return [
     | caching of the final schema to optimize performance of large schemas.
     |
     */
-
+    'cache' => [
+        'enable' => true,                    // HARUS TRUE
+        'driver' => 'redis',                 // GUNAKAN REDIS (bukan file!)
+        'ttl' => 600,                        // 10 menit
+        'key_prefix' => 'lighthouse',
+    ],
+        
     'schema_cache' => [
         /*
          * Setting to true enables schema caching.

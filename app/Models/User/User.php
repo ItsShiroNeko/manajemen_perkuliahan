@@ -40,11 +40,12 @@ class User extends Authenticatable
         ];
     }
 
-    // Relationships
     public function role()
-    {
-        return $this->belongsTo(Role::class);
-    }
+{
+    return $this->belongsTo(\App\Models\Role\Role::class, 'role_id', 'id');
+}
+
+
 
     public function dosen()
     {

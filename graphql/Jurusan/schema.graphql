@@ -12,9 +12,6 @@ type Jurusan {
     
     # Relations
     fakultas: Fakultas! @belongsTo
-    dosen: [Dosen!]! @hasMany
-    mahasiswa: [Mahasiswa!]! @hasMany
-    mataKuliah: [MataKuliah!]! @hasMany
 }
 
 input CreateJurusanInput {

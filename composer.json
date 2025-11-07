@@ -10,7 +10,9 @@
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
         "mll-lab/laravel-graphiql": "^4.0",
-        "nuwave/lighthouse": "^6.63"
+        "nuwave/lighthouse": "^6.63",
+        "predis/predis": "^3.2",
+        "staudenmeir/belongs-to-through": "^2.17"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

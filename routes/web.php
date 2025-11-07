@@ -1,33 +1,46 @@
 <?php
-
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\MahasiswaController;
+use App\Http\Controllers\DosenController;
 
+Route::get('/', [AuthController::class, 'showLogin'])->name('login');
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
-Route::post('/register', [AuthController::class, 'register']);
-Route::get('/forgot-password', [AuthController::class, 'showForgotPassword'])->name('password.request');
+Route::post('/register', [AuthController::class, 'register'])->name('register.post');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
-    Route::get('/role', [AuthController::class, 'role'])->name('role.index');
-    Route::get('/user', [AuthController::class, 'user'])->name('user.index');
-    Route::get('/mahasiswa', [AuthController::class, 'mahasiswa'])->name('mahasiswa.index');
-    Route::get('/mahasiswa_detail/{id}', [AuthController::class, 'mahasiswa_detail'])->name('mahasiswa_detail.index');
-    Route::get('/dosen', [AuthController::class, 'dosen'])->name('dosen.index');
-    Route::get('/dosen_detail/{id}', [AuthController::class, 'dosen_detail'])->name('dosen_detail.index');
-    Route::get('/fakultas', [AuthController::class, 'fakultas'])->name('fakultas.index');
-    Route::get('/jurusan', [AuthController::class, 'jurusan'])->name('jurusan.index');
-    Route::get('/semester', [AuthController::class, 'semester'])->name('semester.index');
-    Route::get('/ruangan', [AuthController::class, 'ruangan'])->name('ruangan.index');
-    Route::get('/mata_kuliah', [AuthController::class, 'mata_kuliah'])->name('mata_kuliah.index');
-    Route::get('/kelas', [AuthController::class, 'kelas'])->name('kelas.index');
-    Route::get('/jadwal', [AuthController::class, 'jadwal'])->name('jadwal.index');
-    Route::get('/khs', [AuthController::class, 'khs'])->name('khs.index');
-    Route::get('/krs', [AuthController::class, 'krs'])->name('krs.index');
-    Route::get('/krs_detail/{id}', [AuthController::class, 'krs_detail'])->name('krs_detail.index');
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('/admin/users', [AdminController::class, 'users']);
+    Route::get('/admin/roles', [AdminController::class, 'roles']);
+    Route::get('/admin/dosen', [AdminController::class, 'dosen']);
+    Route::get('/admin/mahasiswa', [AdminController::class, 'mahasiswa'])->name('admin.mahasiswa');
+    Route::get('/admin/krs', [AdminController::class, 'krs']);
+    Route::get('/admin/nilai', [AdminController::class, 'nilai']);
+    Route::get('/admin/ruangan', [AdminController::class, 'ruangan']);
+    Route::get('/admin/kelas', [AdminController::class, 'kelas']);
+    Route::get('/admin/jurusan', [AdminController::class, 'jurusan']);
+    Route::get('/admin/fakultas', [AdminController::class, 'fakultas']);
+    Route::get('/admin/jadwal', [AdminController::class, 'jadwal']);
+    Route::get('/admin/semester', [AdminController::class, 'semester']);
+    Route::get('/admin/mata_kuliah', [AdminController::class, 'mata_kuliah'])->name('admin.mata_kuliah');
+    Route::get('/admin/khs', [AdminController::class, 'khs']);
+    Route::get('/admin/jadwal', [AdminController::class, 'jadwal'])->name('admin.jadwal');
+    Route::get('/admin/dosen_detail/{id}', [AdminController::class, 'dosen_detail']);
+    Route::get('/admin/mahasiswa_detail/{id}', [AdminController::class, 'mahasiswa_detail']);
+    Route::get('/admin/krs_detail/{id}', [AdminController::class, 'krs_detail']);
+});
 
+Route::middleware(['auth', 'role:dosen'])->group(function () {
+    Route::get('/dosen/dashboard', [DosenController::class, 'index'])->name('dosen.dashboard');
+});
+
+Route::middleware(['auth', 'role:mahasiswa'])->group(function () {
+    Route::get('/mahasiswa/dashboard', [MahasiswaController::class, 'index'])->name('mahasiswa.dashboard');
+    Route::get('/mahasiswa/jadwal', [MahasiswaController::class, 'jadwal'])->name('jadwal.index');
+    Route::get('/mahasiswa/nilai', [MahasiswaController::class, 'nilai'])->name('nilai.index');
+    Route::get('/mahasiswa/khs', [MahasiswaController::class, 'khs'])->name('khs.index');
+    Route::get('/mahasiswa/krs', [MahasiswaController::class, 'krs'])->name('krs.index');
 });

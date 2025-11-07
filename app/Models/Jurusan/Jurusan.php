@@ -32,7 +32,7 @@ class Jurusan extends Model
         ];
     }
 
-    // Relationships
+    // Relationships dengan Eager Loading Prevention untuk relasi yang tidak digunakan
     public function fakultas()
     {
         return $this->belongsTo(Fakultas::class);
@@ -51,5 +51,17 @@ class Jurusan extends Model
     public function mataKuliah()
     {
         return $this->hasMany(MataKuliah::class);
+    }
+
+    // Scope untuk search yang lebih efisien
+    public function scopeSearch($query, $search)
+    {
+        if (!empty($search)) {
+            return $query->where(function($q) use ($search) {
+                $q->where('nama_jurusan', 'like', '%' . $search . '%')
+                  ->orWhere('kode_jurusan', 'like', '%' . $search . '%');
+            });
+        }
+        return $query;
     }
 }

@@ -49,12 +49,12 @@ type PageInfo {
 
 extend type Query{
     allKrsDetail: [KrsDetail!]! @all(model: "KrsDetail\\KrsDetail")
-    krsdetail(id: ID! @eq(key: "id")): KrsDetail @find(model: "KrsDetail\\KrsDetail")
+    krsdetail(krs_id: ID! @eq): [KrsDetail!]! @all(model: "KrsDetail\\KrsDetail")
     allKrsDetailPaginate(
             search: String
-            first: Int
+            first: Int  
             page: Int
-        ): KrsDetailPaginator @field(resolver: "KrsDetail\\Queries\\KrsDetailQuery@all")   
+        ): KrsDetailPaginator @field(resolver: "App\\GraphQL\\KrsDetail\\Queries\\KrsDetailQuery@all")   
     krsdetailByNama(
         nama_mk: String! @where(operator: "like", key: "nama_mk")
     ): [KrsDetail]! @all(model: "KrsDetail\\KrsDetail")

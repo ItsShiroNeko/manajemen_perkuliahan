@@ -63,7 +63,12 @@ extend type Query{
             search: String
             first: Int
             page: Int
-        ): NilaiPaginator @field(resolver: "Nilai\\Queries\\NilaiQuery@all")   
+        ): NilaiPaginator @field(resolver: "App\\GraphQL\\Nilai\\Queries\\NilaiQuery@all")   
+    allNilaiArsip(
+            search: String
+            first: Int
+            page: Int
+        ): NilaiPaginator @field(resolver: "App\\GraphQL\\Nilai\\Queries\\NilaiQuery@allArsip")   
     nilaiByHuruf(
         nilai_huruf: String! @where(operator: "like", key: "nilai_huruf")
     ): [Nilai]! @all(model: "Nilai\\Nilai")

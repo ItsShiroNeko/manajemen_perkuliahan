@@ -56,11 +56,11 @@ extend type Query{
             page: Int
         ): KhsPaginator @field(resolver: "App\\GraphQL\\Khs\\Queries\\KhsQuery@all")   
     allKhsArsip(
-            search: String
+            search: String  
             first: Int
             page: Int
         ): KhsPaginator @field(resolver: "App\\GraphQL\\Khs\\Queries\\KhsQuery@allArsip")   
-    khsByMahasiswa(
+    khsByMahasiswa( 
         nama_mk: String! @where(operator: "like", key: "nama_mk")
     ): [Khs]! @all(model: "Khs\\Khs")
 }

@@ -31,19 +31,6 @@
                 </div>
             </div>
 
-            {{-- Remember & Forgot --}}
-            <!-- <div class="flex items-center justify-between">
-                <label class="flex items-center text-sm text-gray-600">
-                    <input type="checkbox" name="remember"
-                           class="rounded border-gray-300 text-emerald-500 focus:ring-emerald-400">
-                    <span class="ml-2">Ingat saya</span>
-                </label>
-                <a href="{{ route('password.request') }}"
-                   class="text-sm font-medium text-sky-600 hover:text-sky-700">
-                    Lupa password?
-                </a>
-            </div> -->
-
             {{-- Button Login --}}
             <div>
                 <button type="submit"
