@@ -145,7 +145,7 @@ function renderMahasiswaTable(mahasiswa, tableId, isActive) {
             <tr class="hover:bg-gray-50">
                 <td class="border p-2 text-sm">${item.nim}</td>
                 <td class="border p-2 text-sm">${item.nama_lengkap}</td>
-                <td class="border p-2 text-sm">${item.jurusan?.nama_jurusan || "-"}</td>    
+                <td class="border p-2 text-sm">${item.jurusan?.nama_jurusan || "-"}</td>     
                 <td class="border p-2 text-sm text-center">${item.angkatan}</td>
                 <td class="border p-2 text-sm text-center">${item.jenis_kelamin}</td>
                 <td class="border p-2 text-sm text-center">${statusBadge}</td>
