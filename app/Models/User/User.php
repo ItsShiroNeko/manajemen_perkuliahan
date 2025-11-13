@@ -22,7 +22,6 @@ class User extends Authenticatable
         'password',
         'role_id',
         'status',
-        'last_login',
     ];
 
     protected $hidden = [
@@ -30,15 +29,12 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'last_login' => 'datetime',
-            'password' => 'hashed',
-            'deleted_at' => 'datetime',
-        ];
-    }
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+        'deleted_at' => 'datetime',
+    ];
+    
 
     public function role()
 {

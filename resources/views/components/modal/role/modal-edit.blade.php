@@ -9,6 +9,10 @@
                     <label for="editRole" class="block mb-1">Nama Role</label>
                     <input type="text" id="editRole" name="nama" class="border p-2 w-full rounded" required>
                 </div>
+                <div class="mb-4">
+                    <label for="editRoleDeskripsi" class="block mb-1">Deskripsi Role</label>
+                    <textarea id="editRoleDeskripsi" name="deskripsi" id="" cols="10" rows="3" class="border p-1 w-full rounded" required></textarea>
+                </div>
                 <div class="flex justify-end gap-2">
                     <button type="button" onclick="closeEditModal()" class="bg-gray-400 text-white px-4 py-2 rounded">
                         Batal

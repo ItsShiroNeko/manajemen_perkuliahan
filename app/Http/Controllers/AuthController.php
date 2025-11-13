@@ -53,35 +53,32 @@ class AuthController extends Controller
     }
 
     public function register(Request $request)
-    {
-        $data = $request->validate([
-            'username' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|confirmed|min:6',
-            'role_id' => 'required|exists:roles,id',
-        ]);
+{
+    $data = $request->validate([
+        'username' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email',
+        'password' => 'required|confirmed|min:6',
+    ]);
 
-        $user = User::create([
-            'username' => $data['username'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'role_id' => $data['role_id'],
-            'status' => 'active',
-        ]);
+    $user = User::create([
+        'username' => $data['username'],
+        'email' => $data['email'],
+        'password' => Hash::make($data['password']),
+        'role_id' => 1,
+        'status' => 'aktif',
+    ]);
 
-        Auth::login($user);
+    Auth::login($user);
 
-        $user = Auth::user();
-        $roleName = strtolower($user->role->nama_role ?? '');
-        Log::info('New user registered', [
-            'user_id' => $user->id,
-            'role_id' => $user->role_id,
-            'role_name' => $user->role->nama_role ?? null,
-            'role_lowercase' => $roleName
-        ]);
+    $roleName = strtolower($user->role->nama_role ?? 'mahasiswa');
 
-        return redirect()->route("{$roleName}.dashboard");
-    }
+    Log::info('User registered', [
+        'user_id' => $user->id,
+        'role_name' => $roleName
+    ]);
+
+    return redirect()->route("{$roleName}.dashboard");
+}
 
     public function logout(Request $request)
     {

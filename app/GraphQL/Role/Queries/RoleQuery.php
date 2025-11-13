@@ -8,7 +8,8 @@ class RoleQuery {
     {
         $query = Role::onlyTrashed();
         if (!empty($args['search'])) {
-            $query->where('nama_role', 'like', '%' . $args['search'] . '%');
+            $query->where('nama_role', 'like', '%' . $args['search'] . '%')
+                  ->orWhere('id', 'like', '%' . $args['search'] . '%');
         }
 
         $perPage = $args['first'] ?? 10;

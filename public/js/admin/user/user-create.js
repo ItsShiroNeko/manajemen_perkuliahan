@@ -1,44 +1,85 @@
+// === MODAL ADD USER ===
 function openAddModal(){
     document.getElementById('modalAdd').classList.remove('hidden');
+    fetchRolesAdd(); // ambil data role saat modal dibuka
 }
 
 function closeAddModal(){
     document.getElementById('modalAdd').classList.add('hidden');
-    document.getElementById('addUsername').value = '';
-    document.getElementById('addEmail').value = '';
-    document.getElementById('addPassword').value = '';
-    document.getElementById('addRole').value = '';
-    document.getElementById('addStatus').value = '';
 }
 
-async function createUser(){
-    const role = document.getElementById('addRole').value;
-    const username = document.getElementById('addUsername').value;
-    const password = document.getElementById('addPassword').value;
-    const email = document.getElementById('addEmail').value;
-    const status = document.getElementById('addStatus').value;
-    if (!username) return alert("Username Role Harus Diisi!");
-    if (!password) return alert("Password Role Harus Diisi!");
-    if (!email) return alert("Email Role Harus Diisi!");
-    if (!status) return alert("Status Role Harus Diisi!");
-    if (!role) return alert("Nama Role Harus Diisi!");{
-        const mutation =`
-        mutation {
-            createRole(input: {username: "${username}", password: "${password}", email: "${email}", role_id: "${role}", status: "${status}"}){
+// Ambil Role untuk dropdown di Modal Add
+async function fetchRolesAdd() {
+    const query = `
+        query {
+            allRole {
                 id
-                username
-                password
-                email
-                status
-                role_id
+                nama_role
             }
         }`;
-        await fetch('/graphql', {
-            method: 'POST',
-            headers: {'Content-Type' : 'application/json'},
-            body: JSON.stringify({query: mutation})
-        });
-        closeAddModal();
-        loadUser();
+
+    const res = await fetch('/graphql', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({query})
+    });
+
+    const { data } = await res.json();
+    const select = document.getElementById('addRole');
+    select.innerHTML = '<option value="">-- Pilih Role --</option>';
+    data.allRole.forEach(role => {
+        const opt = document.createElement('option');
+        opt.value = role.id;
+        opt.textContent = role.nama_role;
+        select.appendChild(opt);
+    });
+}
+
+// Kirim data tambah user ke GraphQL
+async function createUser(){
+    const username = document.getElementById('addUsername').value;
+    const email = document.getElementById('addEmail').value;
+    const password = document.getElementById('addPassword').value;
+    const role = document.getElementById('addRole').value;
+    const status = document.getElementById('addStatus').value;
+
+    if(!username) return alert("Username tidak boleh kosong");
+    if(!email) return alert("Email tidak boleh kosong");
+    if(!password) return alert("Password tidak boleh kosong");
+    if(!role) return alert("Role belum dipilih");
+    if(!status) return alert("Status belum dipilih");
+
+    const mutation = `
+        mutation {
+            createUser(input: {
+                username: "${username}",
+                email: "${email}",
+                password: "${password}",
+                role_id: ${role},
+                status: "${status}"
+            }) {
+                id
+                username
+                email
+                role_id
+                status
+            }
+        }`;
+
+    const res = await fetch('/graphql', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ query: mutation })
+    });
+
+    const result = await res.json();
+    if(result.errors){
+        console.error(result.errors);
+        alert("Gagal menambahkan user");
+        return;
     }
+    alert("Berhasil Menambahkan User")
+
+    closeAddModal();
+    loadUser();
 }

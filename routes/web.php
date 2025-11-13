@@ -13,16 +13,16 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
-    Route::get('/admin/users', [AdminController::class, 'users']);
-    Route::get('/admin/roles', [AdminController::class, 'roles']);
+    Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.user');
+    Route::get('/admin/roles', [AdminController::class, 'roles'])->name('admin.role');
     Route::get('/admin/dosen', [AdminController::class, 'dosen']);
     Route::get('/admin/mahasiswa', [AdminController::class, 'mahasiswa'])->name('admin.mahasiswa');
     Route::get('/admin/krs', [AdminController::class, 'krs']);
     Route::get('/admin/nilai', [AdminController::class, 'nilai']);
     Route::get('/admin/ruangan', [AdminController::class, 'ruangan']);
     Route::get('/admin/kelas', [AdminController::class, 'kelas']);
-    Route::get('/admin/jurusan', [AdminController::class, 'jurusan']);
-    Route::get('/admin/fakultas', [AdminController::class, 'fakultas']);
+    Route::get('/admin/jurusan', [AdminController::class, 'jurusan'])->name('admin.jurusan');
+    Route::get('/admin/fakultas', [AdminController::class, 'fakultas'])->name('admin.fakultas');
     Route::get('/admin/jadwal', [AdminController::class, 'jadwal']);
     Route::get('/admin/semester', [AdminController::class, 'semester']);
     Route::get('/admin/mata_kuliah', [AdminController::class, 'mata_kuliah'])->name('admin.mata_kuliah');
